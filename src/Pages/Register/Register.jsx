@@ -1,17 +1,22 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { FaUser, FaUnlockAlt, FaEye, FaEyeSlash, FaEnvelope, FaUserCircle } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
+import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
+import Swal from 'sweetalert2'
 
 
 const Register = () => {
 
-    // Hooks and custom hooks
+    // Hooks and states
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState('');
+    const { createNewUser, updateUser } = useAuthProvider();
+    const formRef = useRef(null);
 
-    // Password show-hide manage
+
+    // Password show-hide state manage
     const handleShowPassword = () => {
         setShowPassword(!showPassword);
     }
@@ -27,6 +32,7 @@ const Register = () => {
         const photo = form.photo.value;
 
         const userInfo = { name, email, password, photo };
+        console.log(userInfo);
 
         // password validation checker
         const regExPattern = /^(?=.*[A-Z])(?=.*[\W_]).{6,}$/;
@@ -37,7 +43,43 @@ const Register = () => {
             return setPasswordError("Must be at least 6 characters long and contain 1 capital letter, 1 special character");
         }
 
-        
+        createNewUser(email, password)
+            .then(res => {
+                const user = res.user;
+                console.log(user);
+                if (user) {
+                    updateUser(user, name, photo)
+                        .then(() => {
+                            formRef.current.reset();
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "New user created successfully!",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        })
+                        .catch(error => {
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "error",
+                                title: `Oops! ${error}`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        })
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: `Oops! ${error.code}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+
 
 
     }
@@ -52,7 +94,7 @@ const Register = () => {
 
                 {/* form div */}
 
-                <form onSubmit={handleRegister}
+                <form ref={formRef} onSubmit={handleRegister}
                     className="font-heading flex flex-col justify-center items-center gap-7 w-full md:w-[50%] lg:w-[30%]">
 
                     {/* name input */}
