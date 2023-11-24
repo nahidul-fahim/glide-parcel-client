@@ -11,13 +11,14 @@ export default {
       white: '#fff',
       blcak: '#000',
       lightmain: '#E2FEFF',
+      darkgray: '#747474',
     },
     extend: {
       fontFamily: {
         heading: "'Poppins', sans-serif",
-        body: "'Raleway', sans-serif"
+        body: "'Montserrat', sans-serif"
       }
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 }
