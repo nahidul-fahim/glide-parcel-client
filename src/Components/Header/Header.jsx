@@ -51,7 +51,7 @@ const Header = () => {
 
     // user-profile links
     const userLinks = <div className="flex flex-col gap-5 font-heading">
-        <img src={currentUser?.photoURL} alt="profile picture" className="w-[50px] h-[50px] mx-auto" />
+        <img src={currentUser?.photoURL} alt="profile picture" className="w-[50px] h-[50px] mx-auto rounded-[50%]" />
         <p className="text-center text-[18px] text-sub font-bold">{currentUser?.displayName}</p>
 
         <NavLink className="uppercase font-heading font-semibold text-[16px]"
@@ -121,7 +121,7 @@ const Header = () => {
                                 <div className="dropdown dropdown-end">
                                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                                         <div className="w-10 rounded-full">
-                                            <img alt="Tailwind CSS Navbar component" src={currentUser?.photoURL} />
+                                            <img alt="" src={currentUser?.photoURL}/>
                                         </div>
                                     </label>
                                     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-5 shadow bg-white rounded-box w-52">
