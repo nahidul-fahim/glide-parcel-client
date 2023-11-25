@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
 import { FaUser, FaUnlockAlt, FaEye, FaEyeSlash } from "react-icons/fa";
+import { IoReturnUpBackOutline } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
@@ -62,8 +63,11 @@ const Login = () => {
 
 
     return (
-        <div className="min-h-[100vh] bg-gradient-to-b from-[#2273dd] via-[#32b4ff] to-main p-5 flex justify-center items-center">
-            <div className="container mx-auto p-5 flex flex-col justify-center items-center gap-10">
+        <div className="min-h-[100vh] bg-gradient-to-b from-[#2273dd] via-[#32b4ff] to-main p-5 flex justify-center items-center relative">
+            <div className="container mx-auto p-5 flex flex-col justify-center items-center gap-10 ">
+
+                {/* Back to home button */}
+                <Link to="/" className="uppercase font-body text-[16px] font-bold flex justify-center items-center text-white hover:text-sub duration-500 gap-2 absolute top-8 left-5"><IoReturnUpBackOutline className="text-2xl font-bold"/> Back to Home</Link>
                 <AiOutlineLogin className="text-[190px] text-white" />
 
                 {/* form div */}

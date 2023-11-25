@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { FaUser, FaUnlockAlt, FaEye, FaEyeSlash, FaEnvelope, FaUserCircle } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { IoReturnUpBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 import Swal from 'sweetalert2';
@@ -30,8 +31,9 @@ const Register = () => {
         const email = form.email.value;
         const password = form.password.value;
         const photo = form.photo.value;
+        const userType = form.userType.value;
 
-        const userInfo = { name, email, password, photo };
+        const userInfo = { name, email, password, photo, userType };
         console.log(userInfo);
 
         // password validation checker
@@ -85,9 +87,11 @@ const Register = () => {
 
 
     return (
-        <div className="min-h-[100vh] bg-gradient-to-b from-main via-[#32b4ff] to-[#2273dd] p-5 flex justify-center items-center">
+        <div className="min-h-[100vh] bg-gradient-to-b from-main via-[#32b4ff] to-[#2273dd] p-5 flex justify-center items-center relative">
             <div className="container mx-auto p-5 flex flex-col justify-center items-center gap-10">
                 <AiOutlineUserAdd className="text-[190px] text-white" />
+                {/* Back to home button */}
+                <Link to="/" className="uppercase font-body text-[16px] font-bold flex justify-center items-center text-white hover:text-sub duration-500 gap-2 absolute top-8 left-5"><IoReturnUpBackOutline className="text-2xl font-bold" /> Back to Home</Link>
 
                 {/* form div */}
 
@@ -124,11 +128,20 @@ const Register = () => {
                         }
                     </div>
 
+
                     {/* photo input */}
                     <div className="relative flex flex-col justify-center items-center">
                         <input required type="text" name="photo" placeholder="Your photo" id="photo" className="w-full focus:outline-none px-[50px] py-2 rounded-[20px]" />
                         <FaUserCircle className="absolute top-3 left-5 text-darkgray" />
                     </div>
+
+
+                    {/* Select user type */}
+                    <select required name="userType" id="userType" className="select select-bordered w-[88%] lg:w-[85%] focus:outline-none px-[20px] rounded-[20px] text-[16px]">
+                        <option disabled selected className="text-sub">Select your role</option>
+                        <option>User</option>
+                        <option>Delivery man</option>
+                    </select>
 
                     {/* submit button */}
                     <input type="submit" value="Register" className="w-[50%] bg-sub text-white rounded-[20px] py-2 font-medium cursor-pointer hover:bg-white hover:text-sub duration-500" />
