@@ -135,7 +135,6 @@ const Register = () => {
                         <FaUserCircle className="absolute top-3 left-5 text-darkgray" />
                     </div>
 
-
                     {/* Select user type */}
                     <select required name="userType" id="userType" className="select select-bordered w-[88%] lg:w-[85%] focus:outline-none px-[20px] rounded-[20px] text-[16px]">
                         <option disabled selected className="text-sub">Select your role</option>

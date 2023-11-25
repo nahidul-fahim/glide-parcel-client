@@ -52,9 +52,6 @@ const AuthProvider = ({ children }) => {
     }, [])
 
 
-    console.log(currentUser);
-
-
 
     const authInfo = { createNewUser, loading, updateUser, logInUser, currentUser, logOut }
 
