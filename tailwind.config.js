@@ -8,7 +8,7 @@ export default {
     colors: {
       main: '#16CCF5',
       sub: '#000B1A',
-      third: '#003153',
+      third: '#001D67',
       white: '#fff',
       blcak: '#000',
       lightmain: '#E2FEFF',

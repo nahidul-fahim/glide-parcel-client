@@ -18,7 +18,7 @@ const HeroSection = () => {
         <div className="flex justify-end items-center container mx-auto w-full relative">
 
             {/* hero section left side details */}
-            <div className="bg-[#16CCF5E0] w-[95%] lg:w-[48%] p-10 flex flex-col justify-center items-start gap-5 absolute top-[200px] lg:top-[50px] left-[20px] rounded-2xl z-10 sm:overflow-hidden"
+            <div className="bg-[#16CCF5E0] w-[95%] lg:w-[48%] p-10 flex flex-col justify-center items-start gap-4 absolute top-[200px] lg:top-[50px] left-[20px] rounded-2xl z-10 sm:overflow-hidden"
                 ref={animate}
                 style={{
                     transform: isInView ? "none" : "translateX(-100px)",
@@ -28,8 +28,8 @@ const HeroSection = () => {
             >
 
                 {/* heading */}
-                <h2 className="text-left font-heading font-bold text-4xl lg:text-5xl text-white">Glide with Pride</h2>
-                <h2 className="text-left font-heading font-bold text-4xl lg:text-5xl text-[#003153]">Glide with Parcel</h2>
+                <h2 className="uppercase text-left font-heading font-bold text-4xl lg:text-5xl text-white">Glide with Pride</h2>
+                <h2 className="uppercase text-left font-heading font-bold text-4xl lg:text-5xl text-third">Glide with Parcel</h2>
 
                 {/* divider */}
                 <div className="flex justify-center items-center w-full gap-[2%]">
