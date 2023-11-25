@@ -1,9 +1,14 @@
+import HeroSection from "./HeroSection";
 
 
 const Home = () => {
+
+
+
     return (
         <div>
-            <h2>homepage</h2>
+            <HeroSection />
+
         </div>
     );
 };

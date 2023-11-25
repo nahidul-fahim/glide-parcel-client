@@ -6,12 +6,14 @@ export default {
   ],
   theme: {
     colors: {
-      main: '#21BFDB',
-      sub: '#00273E',
+      main: '#16CCF5',
+      sub: '#000B1A',
+      third: '#003153',
       white: '#fff',
       blcak: '#000',
       lightmain: '#E2FEFF',
       darkgray: '#747474',
+      lightgray: '#dbdbdb'
     },
     extend: {
       fontFamily: {

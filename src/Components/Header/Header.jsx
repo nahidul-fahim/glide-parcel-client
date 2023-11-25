@@ -93,7 +93,7 @@ const Header = () => {
                         style={{
                             transform: isInView ? "none" : "translateX(100px)",
                             opacity: isInView ? "1" : "0",
-                            transition: "all 2.5s"
+                            transition: "all 1.8s"
                         }}
                     ><img src={logo} alt="" /></Link>
                 </div>

@@ -8,6 +8,7 @@ import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 import Swal from 'sweetalert2';
 
 
+
 const Login = () => {
 
     // Hooks and custom hooks
@@ -15,6 +16,8 @@ const Login = () => {
     const { logInUser } = useAuthProvider();
     // const navigate = useNavigate();
     const loginRef = useRef(null);
+
+
 
     // Password show-hide manage
     const handleShowPassword = () => {
@@ -74,11 +77,14 @@ const Login = () => {
                 {/* form div */}
 
                 <form ref={loginRef} onSubmit={handleLogin} className="font-heading flex flex-col justify-center items-center gap-7 w-full md:w-[50%] lg:w-[30%]">
+
+                    {/* email input */}
                     <div className="relative flex flex-col justify-center items-center">
                         <input type="email" name="email" placeholder="Your email" id="email" className="w-full focus:outline-none px-[50px] py-2 rounded-[20px]" />
                         <FaUser className="absolute top-3 left-5 text-darkgray" />
                     </div>
-
+                    
+                    {/* password input */}
                     <div className="relative flex flex-col justify-center items-center">
                         <input type={showPassword ? "text" : "password"} name="password" placeholder="Your password" id="password" className="w-full focus:outline-none px-[50px] py-2 rounded-[20px]" />
                         <FaUnlockAlt className="absolute top-3 left-5 text-darkgray" />
