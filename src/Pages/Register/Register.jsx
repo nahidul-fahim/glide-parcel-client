@@ -79,9 +79,6 @@ const Register = () => {
                     timer: 1500
                 });
             })
-
-
-
     }
 
 

@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
 import { FaUser, FaUnlockAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 
 
 const Login = () => {
 
     // Hooks and custom hooks
     const [showPassword, setShowPassword] = useState(false);
+    const { LogInUser } = useAuthProvider();
+    const navigate = useNavigate();
+    const loginRef = useRef(null);
 
     // Password show-hide manage
     const handleShowPassword = () => {
@@ -18,6 +22,26 @@ const Login = () => {
     // Login form submission
     const handleLogin = e => {
         e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+
+
+        // Getting the route from where redirected to the login page
+        const from = location.state?.from?.pathname || "/";
+
+
+        // const logInInfo = { email, password };
+        LogInUser(email, password)
+            .then(res => {
+                const user = res.user;
+                console.log(user);
+                loginRef.current.reset();
+                navigate(from, { replace: true });
+            })
+            .catch(error => {
+                console.log(error.code);
+            })
     }
 
 
