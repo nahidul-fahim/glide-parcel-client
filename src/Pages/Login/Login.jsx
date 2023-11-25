@@ -37,16 +37,17 @@ const Login = () => {
         logInUser(email, password)
             .then(res => {
                 const user = res.user;
-                console.log(user);
-                loginRef.current.reset();
-                // success login message
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Login successfull!",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                // success login message if user exists
+                if (user) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Login successfull!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    loginRef.current.reset();
+                }
                 // navigate(from, { replace: true });
             })
             .catch(error => {
@@ -56,7 +57,7 @@ const Login = () => {
                     icon: "error",
                     title: `Oops! ${error}`,
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 2000
                 });
             })
     }
@@ -67,12 +68,12 @@ const Login = () => {
             <div className="container mx-auto p-5 flex flex-col justify-center items-center gap-10 ">
 
                 {/* Back to home button */}
-                <Link to="/" className="uppercase font-body text-[16px] font-bold flex justify-center items-center text-white hover:text-sub duration-500 gap-2 absolute top-8 left-5"><IoReturnUpBackOutline className="text-2xl font-bold"/> Back to Home</Link>
+                <Link to="/" className="uppercase font-body text-[16px] font-bold flex justify-center items-center text-white hover:text-sub duration-500 gap-2 absolute top-8 left-5"><IoReturnUpBackOutline className="text-2xl font-bold" /> Back to Home</Link>
                 <AiOutlineLogin className="text-[190px] text-white" />
 
                 {/* form div */}
 
-                <form onSubmit={handleLogin} className="font-heading flex flex-col justify-center items-center gap-7 w-full md:w-[50%] lg:w-[30%]">
+                <form ref={loginRef} onSubmit={handleLogin} className="font-heading flex flex-col justify-center items-center gap-7 w-full md:w-[50%] lg:w-[30%]">
                     <div className="relative flex flex-col justify-center items-center">
                         <input type="email" name="email" placeholder="Your email" id="email" className="w-full focus:outline-none px-[50px] py-2 rounded-[20px]" />
                         <FaUser className="absolute top-3 left-5 text-darkgray" />

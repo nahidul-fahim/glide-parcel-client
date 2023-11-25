@@ -1,19 +1,21 @@
 import { Link, NavLink } from "react-router-dom";
 import { IoMenuSharp } from "react-icons/io5";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
-
+import { RiLogoutCircleLine } from "react-icons/ri";
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 
 
 const Header = () => {
 
     // hooks and stats
     const { currentUser, loading, logOut } = useAuthProvider();
-
-    if (loading) {
-        return <span className="loading loading-infinity text-main loading-md"></span>
-    }
-
     console.log(currentUser);
+
+
+    // Framer motion
+    const animate = useRef();
+    const isInView = useInView(animate)
 
 
     // website logo
@@ -64,7 +66,7 @@ const Header = () => {
             Dashboard
         </NavLink>
 
-        <button onClick={() => logOut()} className="bg-main px-5 py-2 rounded-[20px] font-heading uppercase font-semibold text-white hover:bg-sub duration-500">Logout</button>
+        <button onClick={() => logOut()} className="bg-main px-5 py-2 rounded-[20px] font-heading uppercase font-semibold text-white hover:bg-sub duration-500 flex justify-center items-center gap-2"><RiLogoutCircleLine className="text-xl" /> Logout</button>
 
     </div>
 
@@ -72,10 +74,9 @@ const Header = () => {
 
 
 
-
     return (
-        <div className="px-5 flex justify-between items-center">
-            <div className="navbar bg-base-100">
+        <div className="px-1 flex justify-between items-center bg-white">
+            <div className="navbar flex justify-between items-center">
 
                 {/* logo and medium + small device navigation side */}
                 <div className="navbar-start">
@@ -87,11 +88,23 @@ const Header = () => {
                             {navlinks}
                         </ul>
                     </div>
-                    <Link to="/"><img src={logo} alt="" /></Link>
+                    <Link to="/"
+                        ref={animate}
+                        style={{
+                            transform: isInView ? "none" : "translateX(100px)",
+                            opacity: isInView ? "1" : "0",
+                            transition: "all 2.5s"
+                        }}
+                    ><img src={logo} alt="" /></Link>
                 </div>
 
                 {/* navigation side */}
-                <div className="navbar-end flex justify-end items-center gap-8">
+                <div className="navbar-end flex justify-end items-center gap-8"
+                    ref={animate}
+                    style={{
+                        opacity: isInView ? "1" : "0",
+                        transition: "all 2.5s"
+                    }}>
 
                     {/* large device navlinks */}
                     <div className="hidden lg:flex">
@@ -101,23 +114,23 @@ const Header = () => {
                     </div>
 
                     {/* conditional user profile section */}
-
                     {
-                        currentUser ?
-                            <div className="dropdown dropdown-end">
-                                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                                    <div className="w-10 rounded-full">
-                                        <img alt="Tailwind CSS Navbar component" src={currentUser?.photoURL} />
-                                    </div>
-                                </label>
-                                <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-5 shadow bg-white rounded-box w-52">
-                                    {userLinks}
-                                </ul>
-                            </div>
+                        loading ? <span className="flex justify-center items-center loading loading-infinity text-main loading-md"></span>
                             :
-                            <Link to="/login"><button className="bg-main px-5 py-2 rounded-[20px] font-heading uppercase font-semibold text-white hover:bg-sub duration-500">Login</button></Link>
+                            currentUser ?
+                                <div className="dropdown dropdown-end">
+                                    <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                        <div className="w-10 rounded-full">
+                                            <img alt="Tailwind CSS Navbar component" src={currentUser?.photoURL} />
+                                        </div>
+                                    </label>
+                                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-5 shadow bg-white rounded-box w-52">
+                                        {userLinks}
+                                    </ul>
+                                </div>
+                                :
+                                <Link to="/login"><button className="bg-main px-5 py-2 rounded-[20px] font-heading uppercase font-semibold text-white hover:bg-sub duration-500">Login</button></Link>
                     }
-
                 </div>
 
             </div>
