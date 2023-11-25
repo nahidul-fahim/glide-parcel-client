@@ -5,7 +5,7 @@ import { useRef } from "react";
 const HeroSection = () => {
 
 
-    // Framer motion
+    // Framer motionw
     const animate = useRef(null);
     const isInView = useInView(animate);
 
@@ -15,10 +15,10 @@ const HeroSection = () => {
 
 
     return (
-        <div className="flex justify-end items-center container mx-auto w-full relative">
+        <div className="flex justify-end items-center container mx-auto w-full relative ">
 
             {/* hero section left side details */}
-            <div className="bg-[#16CCF5E0] w-[95%] lg:w-[48%] p-10 flex flex-col justify-center items-start gap-4 absolute top-[200px] lg:top-[50px] left-[20px] rounded-2xl z-10 sm:overflow-hidden"
+            <div className="bg-[#16CCF5E0] w-[95%] lg:w-[48%] p-10 flex flex-col justify-center items-start gap-4 absolute top-[200px] lg:top-[50px] left-[20px] rounded-2xl z-10"
                 ref={animate}
                 style={{
                     transform: isInView ? "none" : "translateX(-100px)",
