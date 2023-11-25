@@ -1,5 +1,6 @@
 import Features from "./Features";
 import HeroSection from "./HeroSection";
+import Statistics from "./Statistics";
 
 
 const Home = () => {
@@ -10,6 +11,7 @@ const Home = () => {
         <div>
             <HeroSection />
             <Features />
+            <Statistics />
         </div>
     );
 };
