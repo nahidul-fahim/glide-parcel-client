@@ -4,14 +4,15 @@ import { FaUser, FaUnlockAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
+import Swal from 'sweetalert2';
 
 
 const Login = () => {
 
     // Hooks and custom hooks
     const [showPassword, setShowPassword] = useState(false);
-    const { LogInUser } = useAuthProvider();
-    const navigate = useNavigate();
+    const { logInUser } = useAuthProvider();
+    // const navigate = useNavigate();
     const loginRef = useRef(null);
 
     // Password show-hide manage
@@ -28,19 +29,34 @@ const Login = () => {
 
 
         // Getting the route from where redirected to the login page
-        const from = location.state?.from?.pathname || "/";
+        // const from = location.state?.from?.pathname || "/";
 
 
         // const logInInfo = { email, password };
-        LogInUser(email, password)
+        logInUser(email, password)
             .then(res => {
                 const user = res.user;
                 console.log(user);
                 loginRef.current.reset();
-                navigate(from, { replace: true });
+                // success login message
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Login successfull!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                // navigate(from, { replace: true });
             })
             .catch(error => {
-                console.log(error.code);
+                // failed login message
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: `Oops! ${error}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             })
     }
 

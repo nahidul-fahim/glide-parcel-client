@@ -4,7 +4,7 @@ import { FaUser, FaUnlockAlt, FaEye, FaEyeSlash, FaEnvelope, FaUserCircle } from
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 
 const Register = () => {
