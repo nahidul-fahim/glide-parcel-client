@@ -1,4 +1,6 @@
 import SectionTitle from "../../Components/Shared/SectionTitle/SectionTitle";
+import { FaStar } from "react-icons/fa";
+
 
 
 const DeliveryMan = () => {
@@ -18,107 +20,142 @@ const DeliveryMan = () => {
                 firstPart="Our Standout"
                 secondPart="Delivery Heros"></SectionTitle>
 
-            <div className="grid md:grid-cols-7 lg:grid-cols-8 md:grid-rows-3 lg:grid-rows-2 gap-8 mt-10 md:px-5">
+            <div className="flex flex-wrap justify-evenly items-center gap-14 w-full">
 
                 {/* 1st delivery man */}
-                <div className="flex flex-col justify-center items-center gap-3 relative md:col-start-1 lg:col-start-2 lg:col-span-2 md:col-span-3">
-                    {/* delivery man image */}
-                    <img src={dbMan1} alt="" className="w-[250px] h-[250px] bg-cover rounded-[50%]" />
-                    {/* delivery man details */}
-                    <div className="z-10 flex flex-col justify-center items-center gap-2 w-full">
-                        <h3 className="text-2xl font-body font-semibold text-sub">Ethan Chase</h3>
-                        <div className="w-full flex justify-between items-center">
-                            <p className="font-semibold font-body text-darkgray">Parcel delivered:</p>
-                            <p className="font-semibold font-body text-darkgray">56</p>
+                <div className="flex flex-col justify-center items-center gap-3 relative md:col-start-1 lg:col-start-2 lg:col-span-2 md:col-span-3 w-full lg:w-[33%]">
+                    {/* delivery man image + statistics */}
+                    <div className="relative flex flex-col justify-center items-center">
+                        <img src={dbMan1} alt="" className="w-[300px] h-[300px] bg-cover rounded-[50%]" />
+
+                        {/* parcel statistics */}
+                        <div className="w-[150px] h-[150px] flex flex-col justify-center items-center bg-main px-5 py-5 rounded-[50%] absolute bottom-[-20px] left-[-50px]">
+                            <p className="text-5xl font-bold font-heading text-white text-center">59</p>
+                            <p className="font-body text-white text-center font-semibold">Parcels Delivered</p>
                         </div>
-                        <div className="w-full flex justify-between items-center">
-                            <p className="font-semibold font-body text-darkgray">Average rating:</p>
-                            <p className="font-semibold font-body text-darkgray">4.39</p>
+
+                        {/* rating statistics */}
+                        <div className="w-[150px] h-[150px] flex flex-col justify-center items-center bg-main px-5 py-5 rounded-[50%] absolute bottom-[-20px] right-[-50px]">
+                            <p className="text-5xl font-bold font-heading text-white text-center">4.90</p>
+                            <p className="text-xl font-body text-white text-center font-semibold"><FaStar /></p>
                         </div>
+
+                        {/* postition */}
+                        <h3 className="text-9xl font-bold font-heading text-lightgray absolute left-[-70px] top-0 z-0">01</h3>
                     </div>
-                    <h3 className="text-9xl font-bold font-heading text-lightgray absolute left-[-70px] top-0 z-0">01</h3>
+
+                    {/* delivery man details */}
+                    <h3 className="text-3xl font-body font-semibold text-darkgray">Emil Downey</h3>
                 </div>
 
                 {/* 2nd delivery man */}
-                <div className="flex flex-col justify-center items-center gap-3 relative md:col-start-5 lg:col-start-6 md:col-span-3 lg:col-span-2">
-                    {/* delivery man image */}
-                    <img src={dbMan2} alt="" className="w-[250px] h-[250px] bg-cover rounded-[50%]" />
-                    {/* delivery man details */}
-                    <div className="z-10 flex flex-col justify-center items-center gap-2 w-full">
-                        <h3 className="text-2xl font-body font-semibold text-sub">Caleb James</h3>
-                        <div className="w-full flex justify-between items-center">
-                            <p className="font-semibold font-body text-darkgray">Parcel delivered:</p>
-                            <p className="font-semibold font-body text-darkgray">50</p>
+                <div className="flex flex-col justify-center items-center gap-3 relative md:col-start-1 lg:col-start-2 lg:col-span-2 md:col-span-3 w-full lg:w-[33%]">
+                    {/* delivery man image + statistics */}
+                    <div className="relative flex flex-col justify-center items-center">
+                        <img src={dbMan2} alt="" className="w-[300px] h-[300px] bg-cover rounded-[50%]" />
+
+                        {/* parcel statistics */}
+                        <div className="w-[150px] h-[150px] flex flex-col justify-center items-center bg-main px-5 py-5 rounded-[50%] absolute bottom-[-20px] left-[-50px]">
+                            <p className="text-5xl font-bold font-heading text-white text-center">52</p>
+                            <p className="font-body text-white text-center font-semibold">Parcels Delivered</p>
                         </div>
-                        <div className="w-full flex justify-between items-center">
-                            <p className="font-semibold font-body text-darkgray">Average rating:</p>
-                            <p className="font-semibold font-body text-darkgray">4.79</p>
+
+                        {/* rating statistics */}
+                        <div className="w-[150px] h-[150px] flex flex-col justify-center items-center bg-main px-5 py-5 rounded-[50%] absolute bottom-[-20px] right-[-50px]">
+                            <p className="text-5xl font-bold font-heading text-white text-center">4.87</p>
+                            <p className="text-xl font-body text-white text-center font-semibold"><FaStar /></p>
                         </div>
+
+                        {/* postition */}
+                        <h3 className="text-9xl font-bold font-heading text-lightgray absolute left-[-70px] top-0 z-0">02</h3>
                     </div>
-                    <h3 className="text-9xl font-bold font-heading text-lightgray absolute left-[-70px] top-0 z-0">02</h3>
+
+                    {/* delivery man details */}
+                    <h3 className="text-3xl font-body font-semibold text-darkgray">Mason Scott</h3>
                 </div>
 
                 {/* 3rd delivery man */}
-                <div className="flex flex-col justify-center items-center gap-3 relative md:col-start-3 lg:col-start-1 md:col-span-3 lg:col-span-2">
-                    {/* delivery man image */}
-                    <img src={dbMan3} alt="" className="w-[250px] h-[250px] bg-cover rounded-[50%]" />
-                    {/* delivery man details */}
-                    <div className="z-10 flex flex-col justify-center items-center gap-2 w-full">
-                        <h3 className="text-2xl font-body font-semibold text-sub">Logan Cole</h3>
-                        <div className="w-full flex justify-between items-center">
-                            <p className="font-semibold font-body text-darkgray">Parcel delivered:</p>
-                            <p className="font-semibold font-body text-darkgray">45</p>
+                <div className="flex flex-col justify-center items-center gap-3 relative md:col-start-1 lg:col-start-2 lg:col-span-2 md:col-span-3 w-full lg:w-[33%]">
+                    {/* delivery man image + statistics */}
+                    <div className="relative flex flex-col justify-center items-center">
+                        <img src={dbMan3} alt="" className="w-[300px] h-[300px] bg-cover rounded-[50%]" />
+
+                        {/* parcel statistics */}
+                        <div className="w-[150px] h-[150px] flex flex-col justify-center items-center bg-main px-5 py-5 rounded-[50%] absolute bottom-[-20px] left-[-50px]">
+                            <p className="text-5xl font-bold font-heading text-white text-center">43</p>
+                            <p className="font-body text-white text-center font-semibold">Parcels Delivered</p>
                         </div>
-                        <div className="w-full flex justify-between items-center">
-                            <p className="font-semibold font-body text-darkgray">Average rating:</p>
-                            <p className="font-semibold font-body text-darkgray">4.78</p>
+
+                        {/* rating statistics */}
+                        <div className="w-[150px] h-[150px] flex flex-col justify-center items-center bg-main px-5 py-5 rounded-[50%] absolute bottom-[-20px] right-[-50px]">
+                            <p className="text-5xl font-bold font-heading text-white text-center">4.82</p>
+                            <p className="text-xl font-body text-white text-center font-semibold"><FaStar /></p>
                         </div>
+
+                        {/* postition */}
+                        <h3 className="text-9xl font-bold font-heading text-lightgray absolute left-[-70px] top-0 z-0">03</h3>
                     </div>
-                    <h3 className="text-9xl font-bold font-heading text-lightgray absolute left-[-70px] top-0 z-0">03</h3>
+
+                    {/* delivery man details */}
+                    <h3 className="text-3xl font-body font-semibold text-darkgray">Logan Cole</h3>
                 </div>
-                
+
                 {/* 4th delivery man */}
-                <div className="flex flex-col justify-center items-center gap-3 relative col-start-4 col-span-2">
-                    {/* delivery man image */}
-                    <img src={dbMan4} alt="" className="w-[250px] h-[250px] bg-cover rounded-[50%]" />
-                    {/* delivery man details */}
-                    <div className="z-10 flex flex-col justify-center items-center gap-2 w-full">
-                        <h3 className="text-2xl font-body font-semibold text-sub">Mason Scott</h3>
-                        <div className="w-full flex justify-between items-center">
-                            <p className="font-semibold font-body text-darkgray">Parcel delivered:</p>
-                            <p className="font-semibold font-body text-darkgray">39</p>
+                <div className="flex flex-col justify-center items-center gap-3 relative md:col-start-1 lg:col-start-2 lg:col-span-2 md:col-span-3 w-full lg:w-[33%]">
+                    {/* delivery man image + statistics */}
+                    <div className="relative flex flex-col justify-center items-center">
+                        <img src={dbMan4} alt="" className="w-[300px] h-[300px] bg-cover rounded-[50%]" />
+
+                        {/* parcel statistics */}
+                        <div className="w-[150px] h-[150px] flex flex-col justify-center items-center bg-main px-5 py-5 rounded-[50%] absolute bottom-[-20px] left-[-50px]">
+                            <p className="text-5xl font-bold font-heading text-white text-center">39</p>
+                            <p className="font-body text-white text-center font-semibold">Parcels Delivered</p>
                         </div>
-                        <div className="w-full flex justify-between items-center">
-                            <p className="font-semibold font-body text-darkgray">Average rating:</p>
-                            <p className="font-semibold font-body text-darkgray">4.58</p>
+
+                        {/* rating statistics */}
+                        <div className="w-[150px] h-[150px] flex flex-col justify-center items-center bg-main px-5 py-5 rounded-[50%] absolute bottom-[-20px] right-[-50px]">
+                            <p className="text-5xl font-bold font-heading text-white text-center">4.81</p>
+                            <p className="text-xl font-body text-white text-center font-semibold"><FaStar /></p>
                         </div>
+
+                        {/* postition */}
+                        <h3 className="text-9xl font-bold font-heading text-lightgray absolute left-[-70px] top-0 z-0">04</h3>
                     </div>
-                    <h3 className="text-9xl font-bold font-heading text-lightgray absolute left-[-70px] top-0 z-0">04</h3>
+
+                    {/* delivery man details */}
+                    <h3 className="text-3xl font-body font-semibold text-darkgray">Liam Grant</h3>
                 </div>
-                
+
                 {/* 5th delivery man */}
-                <div className="flex flex-col justify-center items-center gap-3 relative col-start-7 col-span-2">
-                    {/* delivery man image */}
-                    <img src={dbMan5} alt="" className="w-[250px] h-[250px] bg-cover rounded-[50%]" />
-                    {/* delivery man details */}
-                    <div className="z-10 flex flex-col justify-center items-center gap-2 w-full">
-                        <h3 className="text-2xl font-body font-semibold text-sub">Liam Grant</h3>
-                        <div className="w-full flex justify-between items-center">
-                            <p className="font-semibold font-body text-darkgray">Parcel delivered:</p>
-                            <p className="font-semibold font-body text-darkgray">31</p>
+                <div className="flex flex-col justify-center items-center gap-3 relative md:col-start-1 lg:col-start-2 lg:col-span-2 md:col-span-3 w-full lg:w-[33%]">
+                    {/* delivery man image + statistics */}
+                    <div className="relative flex flex-col justify-center items-center">
+                        <img src={dbMan5} alt="" className="w-[300px] h-[300px] bg-cover rounded-[50%]" />
+
+                        {/* parcel statistics */}
+                        <div className="w-[150px] h-[150px] flex flex-col justify-center items-center bg-main px-5 py-5 rounded-[50%] absolute bottom-[-20px] left-[-50px]">
+                            <p className="text-5xl font-bold font-heading text-white text-center">32</p>
+                            <p className="font-body text-white text-center font-semibold">Parcels Delivered</p>
                         </div>
-                        <div className="w-full flex justify-between items-center">
-                            <p className="font-semibold font-body text-darkgray">Average rating:</p>
-                            <p className="font-semibold font-body text-darkgray">4.87</p>
+
+                        {/* rating statistics */}
+                        <div className="w-[150px] h-[150px] flex flex-col justify-center items-center bg-main px-5 py-5 rounded-[50%] absolute bottom-[-20px] right-[-50px]">
+                            <p className="text-5xl font-bold font-heading text-white text-center">4.85</p>
+                            <p className="text-xl font-body text-white text-center font-semibold"><FaStar /></p>
                         </div>
+
+                        {/* postition */}
+                        <h3 className="text-9xl font-bold font-heading text-lightgray absolute left-[-70px] top-0 z-0">05</h3>
                     </div>
-                    <h3 className="text-9xl font-bold font-heading text-lightgray absolute left-[-70px] top-0 z-0">05</h3>
+
+                    {/* delivery man details */}
+                    <h3 className="text-3xl font-body font-semibold text-darkgray">Ian Barry</h3>
                 </div>
 
 
 
             </div>
-            
+
         </div>
     );
 };
