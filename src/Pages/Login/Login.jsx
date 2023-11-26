@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 import Swal from 'sweetalert2';
+import useAxiosOpen from "../../Hooks/useAxiosOpen/useAxiosOpen";
 
 
 
@@ -16,6 +17,7 @@ const Login = () => {
     const { logInUser, GoogleSignIn } = useAuthProvider();
     // const navigate = useNavigate();
     const loginRef = useRef(null);
+    const axiosOpen = useAxiosOpen();
 
 
 
@@ -65,20 +67,40 @@ const Login = () => {
             })
     }
 
-
-
-    // Handle Google Login
+    
+    // Handle Google login
     const handleGoogleSignIn = () => {
         GoogleSignIn()
             .then(res => {
+                console.log(res.user);
+                const userInfo = {
+                    name: res.user?.displayName,
+                    email: res.user?.email,
+                    userType: "User"
+                }
                 if (res.user) {
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Login successfull!",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
+                    // save the userinfo to database
+                    axiosOpen.post("/user", userInfo)
+                        .then(res => {
+                            if (res.data.insertedId) {
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "success",
+                                    title: "New user created successfully!",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "error",
+                                title: `Oops! ${error}`,
+                                showConfirmButton: false,
+                                timer: 4000
+                            });
+                        })
                 }
             })
             .catch(error => {
