@@ -19,7 +19,7 @@ const Header = () => {
 
 
     // website logo
-    const logo = "https://i.ibb.co/CvXjwC7/logo-150-100.png";
+    const logo = "https://i.ibb.co/RbqYPxJ/logo-150-100.png";
 
 
     // navigation bar links
@@ -91,9 +91,9 @@ const Header = () => {
                     <Link to="/"
                         ref={animate}
                         style={{
-                            transform: isInView ? "none" : "translateX(100px)",
+                            transform: isInView ? "none" : "translateX(-40px)",
                             opacity: isInView ? "1" : "0",
-                            transition: "all 1.8s"
+                            transition: "all 1s"
                         }}
                     ><img src={logo} alt="" /></Link>
                 </div>
