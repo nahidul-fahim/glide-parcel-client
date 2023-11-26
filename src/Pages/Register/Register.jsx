@@ -13,7 +13,7 @@ const Register = () => {
     // Hooks and states
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState('');
-    const { createNewUser, updateUser } = useAuthProvider();
+    const { createNewUser, updateUser, GoogleSignIn } = useAuthProvider();
     const formRef = useRef(null);
 
 
@@ -79,6 +79,32 @@ const Register = () => {
                     title: `Oops! ${error.code}`,
                     showConfirmButton: false,
                     timer: 1500
+                });
+            })
+    }
+
+
+    // Handle Google Login
+    const handleGoogleSignIn = () => {
+        GoogleSignIn()
+            .then(res => {
+                if (res.user) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Login successfull!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: `Oops! ${error}`,
+                    showConfirmButton: false,
+                    timer: 2000
                 });
             })
     }
@@ -150,7 +176,7 @@ const Register = () => {
                 <p className=" text-center font-body font-semibold text-sub">Already have an account? <span className="font-semibold text-white border-b-2 pb-1 hover:text-sub hover:border-sub duration-300 font-heading ml-2"><Link to="/login">Login</Link></span></p>
 
                 {/* Social signup */}
-                <button className="mt-7 font-heading font-medium rounded-[20px] flex justify-center items-center px-10 py-2 bg-white hover:bg-sub hover:text-white duration-500"><FcGoogle className="mr-4 text-xl" /> Continue with Google</button>
+                <button onClick={handleGoogleSignIn} className="mt-7 font-heading font-medium rounded-[20px] flex justify-center items-center px-10 py-2 bg-white hover:bg-sub hover:text-white duration-500"><FcGoogle className="mr-4 text-xl" /> Continue with Google</button>
             </div>
         </div>
     );

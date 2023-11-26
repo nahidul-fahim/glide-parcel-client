@@ -1,4 +1,4 @@
-import { FaFacebookF, FaLinkedinIn, FaTwitter, FaInstagram   } from "react-icons/fa";
+import { FaFacebookF, FaLinkedinIn, FaTwitter, FaInstagram } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 
@@ -12,6 +12,7 @@ const Footer = () => {
 
     return (
         <div className="mt-[50px] md:mt-[70px] lg:mt-[100px] bg-third">
+
             <footer className="footer footer-center p-10 text-primary-content">
                 <aside>
                     <img src={logo} alt="" />
@@ -31,6 +32,7 @@ const Footer = () => {
                 </nav>
             </footer>
         </div>
+
     );
 };
 
