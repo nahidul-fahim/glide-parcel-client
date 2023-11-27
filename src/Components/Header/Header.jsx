@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { useInView } from "framer-motion";
 
 
+
 const Header = () => {
 
     // hooks and stats
@@ -24,23 +25,22 @@ const Header = () => {
 
     // navigation bar links
     const navlinks = <>
-        <NavLink className="uppercase font-heading font-semibold text-[16px]"
+        <NavLink className="uppercase font-heading font-semibold text-[16px] hover:bg-[#80808033] px-3 py-1 duration-500 rounded-[20px]"
             style={({ isActive }) => {
                 return {
                     color: isActive ? "#21BFDB" : "#00273E",
                     // transform: isActive ? "scale(1.1)" : "scale(1)",
-                    transition: isActive ? "all 1s" : ""
+                    transition: isActive ? "all 1s" : "",
                 }
             }}
             to="/">
             Home
         </NavLink>
 
-        <NavLink className="uppercase font-heading font-semibold text-[16px]"
+        <NavLink className="uppercase font-heading font-semibold text-[16px] hover:bg-[#80808033] px-3 py-1 duration-500 rounded-[20px]"
             style={({ isActive }) => {
                 return {
                     color: isActive ? "#21BFDB" : "#00273E",
-                    // transform: isActive ? "scale(1.1)" : "scale(1)",
                     transition: isActive ? "all 1s" : ""
                 }
             }}
@@ -121,7 +121,7 @@ const Header = () => {
                                 <div className="dropdown dropdown-end">
                                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                                         <div className="w-10 rounded-full">
-                                            <img alt="" src={currentUser?.photoURL}/>
+                                            <img alt="" src={currentUser?.photoURL} />
                                         </div>
                                     </label>
                                     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-5 shadow bg-white rounded-box w-52">

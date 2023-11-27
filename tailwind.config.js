@@ -10,7 +10,7 @@ export default {
       sub: '#000B1A',
       third: '#001751',
       white: '#fff',
-      blcak: '#000',
+      black: '#000',
       lightmain: '#E2FEFF',
       darkgray: '#747474',
       lightgray: '#dbdbdb'

@@ -5,6 +5,7 @@ import Home from "../../Pages/Home/Home";
 import Login from "../../Pages/Login/Login";
 import Register from "../../Pages/Register/Register";
 import Dashboard from "../../Layout/Dashboard/Dashboard";
+import BookParcel from "../../Pages/DashboardPages/UserDashboardPages/BookParcel";
 
 
 const router = createBrowserRouter([
@@ -34,11 +35,12 @@ const router = createBrowserRouter([
 
     // dashboard router
     {
-        path: "/dashboard",
+        path: "dashboard",
         element: <Dashboard />,
         children: [
             {
-                
+                path: "bookparcel",
+                element: <BookParcel />
             }
         ]
     }
