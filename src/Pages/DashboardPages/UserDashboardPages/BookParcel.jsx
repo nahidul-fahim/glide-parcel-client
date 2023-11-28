@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import useAuthProvider from "../../../Hooks/useAuthProvider/useAuthProvider";
-import { useMemo, useState } from "react";
-import DatePicker from "react-datepicker";
+import { useState } from "react";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 
@@ -10,10 +10,12 @@ const BookParcel = () => {
 
     // hooks and custom hooks
     const { currentUser } = useAuthProvider();
-    const [selectedDate, setSelectedDate] = useState(new Date());
     const [price, setPrice] = useState(0);
 
-    console.log(price);
+
+    // get today's date
+    const todayDate = new Date().toISOString().split('T')[0];
+
 
     // Get the weight and call the pricing function
     const handleWeightChange = weight => {
@@ -37,32 +39,16 @@ const BookParcel = () => {
 
 
 
-    // price calculation for the parcel weight
-    // const priceCalculation = () => {
-    //     if (weight > 0 && weight <= 1) {
-    //        return 50;
-    //     } else if (weight > 1 && weight <= 2) {
-    //        return 100;
-    //     } else {
-    //         return 150;
-    //     }
-    // };
-
-    // console.log(priceCalculation);
-
-
-
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors },
     } = useForm()
 
-    const onSubmit = (data) => console.log(data)
-
-    console.log(watch("example")) // watch input value by passing the name of it
-
+    const onSubmit = data => {
+        data.price = price;
+        console.log(data);
+    }
 
 
 
@@ -111,9 +97,9 @@ const BookParcel = () => {
                     {/* Parcel type field */}
                     <div className="w-full lg:w-2/3 flex flex-col justify-center items-start gap-1">
                         <label className="label">
-                            <span className="label-text font-body text-black font-semibold">Details about your parcel <span className="text-[red]">*</span></span>
+                            <span className="label-text font-body text-black font-semibold">Your parcel type <span className="text-[red]">*</span></span>
                         </label>
-                        <textarea className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black"
+                        <input type="text" className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black"
                             placeholder="Your parcel type" {...register("parcelType", { required: true })} />
                         {errors.parcelType && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
                     </div>
@@ -125,7 +111,6 @@ const BookParcel = () => {
                         </label>
                         <input type="number" min="1" onInput={(event) => {
                             let weight = parseInt(event.target.value);
-                            console.log(weight)
                             handleWeightChange(weight);
                             // setWeight(parseInt(event.target.value));
                         }}
@@ -170,13 +155,11 @@ const BookParcel = () => {
                         <label className="label">
                             <span className="label-text font-body text-black font-semibold">Requested delivery date <span className="text-[red]">*</span></span>
                         </label>
-                        <DatePicker {...register("reqDate", { required: true })}
-                            showIcon
-                            minDate={selectedDate}
-                            selected={selectedDate}
-                            onChange={(date) => setSelectedDate(date)}
-                            dateFormat="MMMM d, yyyy" className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black" />
-                        {errors.reqDate && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
+                        <input type="date" min={todayDate} {...register("date", { required: true })}
+                            className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black"
+                            placeholder="Receiver's phone number" />
+
+                        {errors.date && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
                     </div>
 
                     {/* Delivery address latitude and longitude*/}
@@ -212,15 +195,12 @@ const BookParcel = () => {
                         <label className="label">
                             <span className="label-text font-body text-black font-semibold">Total cost <span className="text-[red]">*</span></span>
                         </label>
-                        <input type="text"
-                            className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black"
-                            value={`$${price}`} {...register("price")} />
+                        <input type="text" value={`$${price}`} {...register("price", { defaultValue: `$${price}` })} readOnly
+                            className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black" />
                     </div>
 
-                    <input type="submit" value="Ship it now" className="w-full lg:w-2/3 text-white bg-third px-5 py-3 rounded-[50px] hover:bg-main duration-500 font-heading font-semibold cursor-pointer" />
+                    <input type="submit" value="Ship the parcel" className="w-full lg:w-2/3 text-white bg-third px-5 py-3 rounded-[50px] hover:bg-main duration-500 font-heading font-semibold cursor-pointer" />
                 </form>
-
-
 
             </div>
         </div>

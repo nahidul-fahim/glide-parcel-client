@@ -19,7 +19,6 @@ const router = createBrowserRouter([
                 element: <Home />
             },
         ]
-
     },
 
     // User login
@@ -41,7 +40,7 @@ const router = createBrowserRouter([
             {
                 path: "bookparcel",
                 element: <BookParcel />
-            }
+            },
         ]
     }
 ])
