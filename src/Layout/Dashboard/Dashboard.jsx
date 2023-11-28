@@ -48,7 +48,7 @@ const Dashboard = () => {
 
     // user dashboard links
     const userLinks = <>
-        <NavLink className="font-sub font-medium text-[16px] flex justify-start items-center gap-4 py-2 px-4 rounded-[30px] duration-300"
+        <NavLink className="font-heading font-medium text-[16px] flex justify-start items-center gap-4 py-2 px-4 rounded-[30px] duration-300"
             style={({ isActive }) => {
                 return {
                     backgroundColor: isActive ? "#16CCF5" : "#16CCF500",
@@ -61,7 +61,7 @@ const Dashboard = () => {
             User Home
         </NavLink>
 
-        <NavLink className="font-sub font-medium text-[16px] flex justify-start items-center gap-4 py-2 px-4 rounded-[30px] duration-300"
+        <NavLink className="font-heading font-medium text-[16px] flex justify-start items-center gap-4 py-2 px-4 rounded-[30px] duration-300"
             style={({ isActive }) => {
                 return {
                     backgroundColor: isActive ? "#16CCF5" : "#16CCF500",
