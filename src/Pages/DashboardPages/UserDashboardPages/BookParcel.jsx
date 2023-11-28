@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
 import useAuthProvider from "../../../Hooks/useAuthProvider/useAuthProvider";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -11,20 +11,44 @@ const BookParcel = () => {
     // hooks and custom hooks
     const { currentUser } = useAuthProvider();
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [weight, setWeight] = useState(0);
     const [price, setPrice] = useState(0);
+
+    console.log(price);
+
+    // Get the weight and call the pricing function
+    const handleWeightChange = weight => {
+        handlePrice(weight);
+    };
+
+
+    // handle pricing according to weight
+    const handlePrice = weight => {
+        if (!weight) {
+            setPrice(0)
+        }
+        else if (weight > 0 && weight <= 1) {
+            setPrice(50)
+        } else if (weight > 1 && weight <= 2) {
+            setPrice(100)
+        } else {
+            setPrice(150)
+        }
+    }
+
 
 
     // price calculation for the parcel weight
-    const priceCalculation = () => {
-        if (weight > 0 && weight <= 1) {
-            setPrice(50);
-        } else if (weight > 1 && weight <= 2) {
-            setPrice(100);
-        } else {
-            setPrice(150);
-        }
-    };    
+    // const priceCalculation = () => {
+    //     if (weight > 0 && weight <= 1) {
+    //        return 50;
+    //     } else if (weight > 1 && weight <= 2) {
+    //        return 100;
+    //     } else {
+    //         return 150;
+    //     }
+    // };
+
+    // console.log(priceCalculation);
 
 
 
@@ -100,8 +124,10 @@ const BookParcel = () => {
                             <span className="label-text font-body text-black font-semibold">Parcel weight (kg) <span className="text-[red]">*</span></span>
                         </label>
                         <input type="number" min="1" onInput={(event) => {
-                            setWeight(parseInt(event.target.value));
-                            priceCalculation()
+                            let weight = parseInt(event.target.value);
+                            console.log(weight)
+                            handleWeightChange(weight);
+                            // setWeight(parseInt(event.target.value));
                         }}
                             className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black"
                             placeholder="Parcel weight" {...register("parcelWeight", { required: true })} />
@@ -186,9 +212,9 @@ const BookParcel = () => {
                         <label className="label">
                             <span className="label-text font-body text-black font-semibold">Total cost <span className="text-[red]">*</span></span>
                         </label>
-                        <input type="text" readOnly
+                        <input type="text"
                             className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black"
-                            value={`$${price}`} {...register("price", { required: true })} />
+                            value={`$${price}`} {...register("price")} />
                     </div>
 
                     <input type="submit" value="Ship it now" className="w-full lg:w-2/3 text-white bg-third px-5 py-3 rounded-[50px] hover:bg-main duration-500 font-heading font-semibold cursor-pointer" />
