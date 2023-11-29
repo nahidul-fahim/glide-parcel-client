@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form"
 import useAuthProvider from "../../../Hooks/useAuthProvider/useAuthProvider";
 import { useState } from "react";
-// import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure/useAxiosSecure";
+import Swal from 'sweetalert2';
 
 
 const BookParcel = () => {
@@ -11,19 +11,27 @@ const BookParcel = () => {
     // hooks and custom hooks
     const { currentUser } = useAuthProvider();
     const [price, setPrice] = useState(0);
+    const axiosSecure = useAxiosSecure();
+    // react hook form
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm()
 
 
-    // get today's date
+    // get today's date and validate for min date in the form's date picker
     const todayDate = new Date().toISOString().split('T')[0];
 
 
-    // Get the weight and call the pricing function
+    // Get the weight from input field and call the pricing function
     const handleWeightChange = weight => {
         handlePrice(weight);
     };
 
 
-    // handle pricing according to weight
+    // set the pricing according to weight
     const handlePrice = weight => {
         if (!weight) {
             setPrice(0)
@@ -37,17 +45,49 @@ const BookParcel = () => {
         }
     }
 
-
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm()
-
+    // handle form submission
     const onSubmit = data => {
         data.price = price;
-        console.log(data);
+        const name = data.name;
+        const email = data.email;
+        const phone = data.phone;
+        const parcelType = data.parcelType;
+        const parcelWeight = parseInt(data.parcelWeight);
+        const recvName = data.recvName;
+        const recvPhone = data.recvPhone;
+        const delvAddress = data.delvAddress;
+        const delvDate = data.delvDate;
+        const latitude = data.latitude;
+        const longitude = data.longitude;
+        const cost = data.price;
+        const bookingDate = todayDate;
+
+        const newBookingInfo = { name, email, phone, parcelType, parcelWeight, recvName, recvPhone, delvAddress, delvDate, latitude, longitude, cost, bookingDate };
+
+
+        // send the new booking data to database
+        axiosSecure.post("/booking", newBookingInfo)
+            .then(res => {
+                if (res.data.insertedId) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "You have a successful booking",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    reset();
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: `Oops! ${error}`,
+                    showConfirmButton: false,
+                    timer: 4000,
+                });
+            })
     }
 
 
@@ -125,8 +165,8 @@ const BookParcel = () => {
                             <span className="label-text font-body text-black font-semibold">{'Receiver\'s'} Name <span className="text-[red]">*</span></span>
                         </label>
                         <input className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black"
-                            placeholder="Receiver's name" {...register("recName", { required: true })} />
-                        {errors.recName && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
+                            placeholder="Receiver's name" {...register("recvName", { required: true })} />
+                        {errors.recvName && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
                     </div>
 
                     {/* Receiver's phone number field */}
@@ -136,8 +176,8 @@ const BookParcel = () => {
                         </label>
                         <input type="tel"
                             className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black"
-                            placeholder="Receiver's phone number" {...register("recPhone", { required: true })} />
-                        {errors.recPhone && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
+                            placeholder="Receiver's phone number" {...register("recvPhone", { required: true })} />
+                        {errors.recvPhone && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
                     </div>
 
                     {/* Delivery address field */}
@@ -146,8 +186,8 @@ const BookParcel = () => {
                             <span className="label-text font-body text-black font-semibold">Parcel delivery address <span className="text-[red]">*</span></span>
                         </label>
                         <textarea className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black"
-                            placeholder="Delivery address" {...register("delAddress", { required: true })} />
-                        {errors.delAddress && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
+                            placeholder="Delivery address" {...register("delvAddress", { required: true })} />
+                        {errors.delvAddress && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
                     </div>
 
                     {/* Delivery date field */}
@@ -155,14 +195,14 @@ const BookParcel = () => {
                         <label className="label">
                             <span className="label-text font-body text-black font-semibold">Requested delivery date <span className="text-[red]">*</span></span>
                         </label>
-                        <input type="date" min={todayDate} {...register("date", { required: true })}
+                        <input type="date" min={todayDate} {...register("delvDate", { required: true })}
                             className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black"
                             placeholder="Receiver's phone number" />
 
-                        {errors.date && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
+                        {errors.delvDate && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
                     </div>
 
-                    {/* Delivery address latitude and longitude*/}
+                    {/* Delivery latitude and longitude*/}
                     <div className="w-full lg:w-2/3 flex flex-col justify-center items-start gap-1">
 
                         <div className="w-full flex justify-between items-center gap-8">

@@ -12,7 +12,7 @@ const SectionTitle = ({ firstPart, secondPart }) => {
 
     return (
         <div className="text-center relative flex justify-center items-center w-full container">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-third z-10"
+            <h2 className="text-4xl md:text-5xl lg:text-5xl font-bold font-heading text-third z-10"
                 ref={animate}
                 style={{
                     transform: isInView ? "none" : "translateY(-50px)",
