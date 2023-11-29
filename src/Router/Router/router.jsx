@@ -5,7 +5,8 @@ import Home from "../../Pages/Home/Home";
 import Login from "../../Pages/Login/Login";
 import Register from "../../Pages/Register/Register";
 import Dashboard from "../../Layout/Dashboard/Dashboard";
-import BookParcel from "../../Pages/DashboardPages/UserDashboardPages/BookParcel";
+import BookParcel from "../../Pages/DashboardPages/UserDashboardPages/BookParcel/BookParcel";
+import MyParcels from "../../Pages/DashboardPages/UserDashboardPages/My Parcels/MyParcels";
 
 
 const router = createBrowserRouter([
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
                 path: "bookparcel",
                 element: <BookParcel />
             },
+            {
+                path: "myparcels",
+                element: <MyParcels />
+            }
         ]
     }
 ])

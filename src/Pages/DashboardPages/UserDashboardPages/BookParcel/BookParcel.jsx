@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form"
-import useAuthProvider from "../../../Hooks/useAuthProvider/useAuthProvider";
 import { useState } from "react";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure/useAxiosSecure";
 import Swal from 'sweetalert2';
+import useAuthProvider from "../../../../Hooks/useAuthProvider/useAuthProvider";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure/useAxiosSecure";
 
 
 const BookParcel = () => {
@@ -89,8 +89,6 @@ const BookParcel = () => {
                 });
             })
     }
-
-
 
 
     return (

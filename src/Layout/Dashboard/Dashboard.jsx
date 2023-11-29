@@ -1,5 +1,5 @@
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { FaBars, FaBox, FaHome } from "react-icons/fa";
+import { FaBars, FaBox, FaBoxes, FaHome } from "react-icons/fa";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import Swal from 'sweetalert2';
@@ -70,8 +70,21 @@ const Dashboard = () => {
                 }
             }}
             to="/dashboard/bookparcel">
-            <FaBox  />
+            <FaBox />
             Book Parcel
+        </NavLink>
+
+        <NavLink className="font-heading font-medium text-[16px] flex justify-start items-center gap-4 py-2 px-4 rounded-[30px] duration-300"
+            style={({ isActive }) => {
+                return {
+                    backgroundColor: isActive ? "#16CCF5" : "#16CCF500",
+                    color: isActive ? "white" : "black",
+                    transition: isActive ? "all .3s" : ""
+                }
+            }}
+            to="/dashboard/myparcels">
+            <FaBoxes />
+            My Parcels
         </NavLink>
     </>
 
