@@ -1,6 +1,7 @@
 import useParcels from "../../../../Hooks/useParcels/useParcels";
 import { GrUpdate } from "react-icons/gr";
 import { GiCancel } from "react-icons/gi";
+import { Link } from "react-router-dom";
 
 
 const MyParcels = () => {
@@ -8,9 +9,8 @@ const MyParcels = () => {
     // hooks and custom hooks
     const [isPending, parcels, refetch] = useParcels();
 
-    // necessary images
-    const loadingGif = "https://i.ibb.co/zmckHyD/loading-Gif.gif";
     // Loading state if no data found
+    const loadingGif = "https://i.ibb.co/zmckHyD/loading-Gif.gif";
     if (isPending) {
         return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
     }
@@ -93,7 +93,17 @@ const MyParcels = () => {
 
                                     {/* manage booking */}
                                     <td className="font-body font-semibold text-[14px] flex justify-center items-center gap-3">
-                                        <button><GrUpdate className="text-3xl p-1 rounded-full text-[#0084ff]" /></button>
+                                        
+                                        {/* update button */}
+                                        <Link to={`updatebooking/${parcel._id}`}>
+                                            <button
+                                                disabled={parcel.bookingStatus !== "pending"}
+                                                className={`${parcel.bookingStatus !== "pending" ? 'cursor-not-allowed opacity-40' : ''}`}>
+                                                <GrUpdate className="text-3xl p-1 rounded-full text-[#0084ff]" />
+                                            </button>
+                                        </Link>
+
+                                        {/* cancel button */}
                                         <button><GiCancel className="text-3xl p-1 rounded-full text-[red]" /></button>
                                     </td>
 
