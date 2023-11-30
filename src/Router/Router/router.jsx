@@ -49,7 +49,8 @@ const router = createBrowserRouter([
             },
             {
                 path: "myparcels/updatebooking/:id",
-                element: <UpdaateBooking />
+                element: <UpdaateBooking />,
+                loader: ({ params }) => fetch(`http://localhost:5000/booking/${params.id}`),
             }
         ]
     }

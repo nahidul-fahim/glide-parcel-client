@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure/useAxiosSecure";
-import { useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Swal from 'sweetalert2';
 
@@ -9,16 +9,18 @@ const UpdaateBooking = () => {
 
     // hooks and custom hooks
     const axiosSecure = useAxiosSecure();
-    const { id } = useParams();
+    // const { id } = useParams();
+    const parcel = useLoaderData();
+
 
     // fetching using tanstack query
-    const { isPending, data: parcel } = useQuery({
-        queryKey: ["parcel"],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/booking/${id}`)
-            return res.data;
-        }
-    })
+    // const { isPending, data: parcel } = useQuery({
+    //     queryKey: ["parcel"],
+    //     queryFn: async () => {
+    //         const res = await axiosSecure.get(`/booking/${id}`)
+    //         return res.data;
+    //     }
+    // })
 
 
     //react hook form
@@ -30,14 +32,14 @@ const UpdaateBooking = () => {
 
 
     // Loading state if no data found
-    const loadingGif = "https://i.ibb.co/zmckHyD/loading-Gif.gif";
-    if (isPending) {
-        return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
-    }
+    // const loadingGif = "https://i.ibb.co/zmckHyD/loading-Gif.gif";
+    // if (isPending) {
+    //     return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
+    // }
 
 
     // get all the data
-    const { name, email, phone, parcelType, parcelWeight, recvName, recvPhone, delvAddress, delvDate, latitude, longitude, cost } = parcel;
+    const { _id ,name, email, phone, parcelType, parcelWeight, recvName, recvPhone, delvAddress, delvDate, latitude, longitude, cost } = parcel;
 
 
     // get today's date and validate for min date in the form's date picker
@@ -58,7 +60,7 @@ const UpdaateBooking = () => {
         const updatedBookingInfo = { phone, parcelType, recvName, recvPhone, delvAddress, delvDate, latitude, longitude };
 
         // send the new booking data to database
-        axiosSecure.put(`updatebooking/${id}`, updatedBookingInfo)
+        axiosSecure.put(`updatebooking/${_id}`, updatedBookingInfo)
             .then(res => {
                 if (res.data.modifiedCount > 0) {
                     Swal.fire({

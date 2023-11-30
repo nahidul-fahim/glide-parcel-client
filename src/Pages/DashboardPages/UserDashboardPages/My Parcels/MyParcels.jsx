@@ -2,12 +2,15 @@ import useParcels from "../../../../Hooks/useParcels/useParcels";
 import { GrUpdate } from "react-icons/gr";
 import { GiCancel } from "react-icons/gi";
 import { Link } from "react-router-dom";
+import Swal from 'sweetalert2';
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure/useAxiosSecure";
 
 
 const MyParcels = () => {
 
     // hooks and custom hooks
     const [isPending, parcels, refetch] = useParcels();
+    const axiosSecure = useAxiosSecure();
 
     // Loading state if no data found
     const loadingGif = "https://i.ibb.co/zmckHyD/loading-Gif.gif";
@@ -17,6 +20,61 @@ const MyParcels = () => {
 
     // get the total cost for the price
     const totalCost = parcels.reduce((total, parcel) => total + parcel.cost, 0);
+
+    // cancel a booking
+    const handleCancel = id => {
+
+        const bookingStatus = "cancelled";
+        const cancelBooking = { bookingStatus };
+
+        Swal.fire({
+            title: "Are you sure to cancel?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#e64747",
+            cancelButtonColor: "#3b3b3b",
+            confirmButtonText: "Yes, cancel!",
+            cancelButtonText: "Exit"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.put(`cancelbooking/${id}`, cancelBooking)
+                    .then(res => {
+                        if (res.data.modifiedCount > 0) {
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "Booking canceled successfully!",
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+                            refetch();
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "error",
+                            title: `Oops! ${error}`,
+                            showConfirmButton: false,
+                            timer: 4000,
+                        });
+                    })
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+    }
 
 
 
@@ -88,12 +146,20 @@ const MyParcels = () => {
 
                                     {/* booking status */}
                                     <td className="font-body font-semibold text-[14px] text-center">
-                                        <h4 className="font-medium font-body text-[14px]">{parcel.bookingStatus}</h4>
+                                        <h4
+                                            className={`font-semibold capitalize font-body text-[14px]
+                                            ${parcel.bookingStatus === "pending" ? "text-[#ff9100]" : 'text-black'}
+                                            ${parcel.bookingStatus === "cancelled" ? "text-[#ff0000]" : 'text-black'}
+                                            ${parcel.bookingStatus === "delivered" ? "text-[#219e40]" : 'text-black'}
+                                            ${parcel.bookingStatus === "on the way" ? "text-[#008cff]" : 'text-black'}
+                                            ${parcel.bookingStatus === "returned" ? "text-[#8c00ff]" : 'text-black'}`}>
+                                            {parcel.bookingStatus}
+                                        </h4>
                                     </td>
 
                                     {/* manage booking */}
                                     <td className="font-body font-semibold text-[14px] flex justify-center items-center gap-3">
-                                        
+
                                         {/* update button */}
                                         <Link to={`updatebooking/${parcel._id}`}>
                                             <button
@@ -104,7 +170,12 @@ const MyParcels = () => {
                                         </Link>
 
                                         {/* cancel button */}
-                                        <button><GiCancel className="text-3xl p-1 rounded-full text-[red]" /></button>
+                                        <button onClick={() => handleCancel(parcel._id)}
+                                            disabled={parcel.bookingStatus !== "pending"}
+                                            className={`${parcel.bookingStatus !== "pending" ? 'cursor-not-allowed opacity-40' : ''}`}
+                                        >
+                                            <GiCancel className="text-3xl p-1 rounded-full text-[red]" />
+                                        </button>
                                     </td>
 
                                     {/* review */}
