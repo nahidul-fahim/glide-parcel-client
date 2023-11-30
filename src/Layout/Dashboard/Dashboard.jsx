@@ -1,5 +1,5 @@
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { FaBars, FaBox, FaBoxes, FaHome } from "react-icons/fa";
+import { FaBars, FaBox, FaBoxes, FaHome, FaUser } from "react-icons/fa";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import Swal from 'sweetalert2';
@@ -48,6 +48,7 @@ const Dashboard = () => {
 
     // user dashboard links
     const userLinks = <>
+
         <NavLink className="font-heading font-medium text-[16px] flex justify-start items-center gap-4 py-2 px-4 rounded-[30px] duration-300"
             style={({ isActive }) => {
                 return {
@@ -56,9 +57,9 @@ const Dashboard = () => {
                     transition: isActive ? "all .3s" : ""
                 }
             }}
-            to="/dashboard/home">
-            <FaHome />
-            User Home
+            to="/dashboard">
+            <FaUser />
+            My Profile
         </NavLink>
 
         <NavLink className="font-heading font-medium text-[16px] flex justify-start items-center gap-4 py-2 px-4 rounded-[30px] duration-300"
@@ -86,6 +87,7 @@ const Dashboard = () => {
             <FaBoxes />
             My Parcels
         </NavLink>
+
     </>
 
 

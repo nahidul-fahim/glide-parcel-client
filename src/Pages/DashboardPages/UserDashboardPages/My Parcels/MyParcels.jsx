@@ -38,7 +38,7 @@ const MyParcels = () => {
             cancelButtonText: "Exit"
         }).then((result) => {
             if (result.isConfirmed) {
-                axiosSecure.put(`cancelbooking/${id}`, cancelBooking)
+                axiosSecure.put(`bookingstatus/${id}`, cancelBooking)
                     .then(res => {
                         if (res.data.modifiedCount > 0) {
                             Swal.fire({

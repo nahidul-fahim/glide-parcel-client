@@ -8,6 +8,7 @@ import Dashboard from "../../Layout/Dashboard/Dashboard";
 import BookParcel from "../../Pages/DashboardPages/UserDashboardPages/BookParcel/BookParcel";
 import MyParcels from "../../Pages/DashboardPages/UserDashboardPages/My Parcels/MyParcels";
 import UpdaateBooking from "../../Pages/DashboardPages/UserDashboardPages/UpdateBooking/UpdaateBooking";
+import MyProfile from "../../Pages/DashboardPages/UserDashboardPages/MyProfile/MyProfile";
 
 
 const router = createBrowserRouter([
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
                 path: "myparcels/updatebooking/:id",
                 element: <UpdaateBooking />,
                 loader: ({ params }) => fetch(`http://localhost:5000/booking/${params.id}`),
+            },
+            {
+                path: "",
+                element: <MyProfile />
             }
         ]
     }
