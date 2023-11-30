@@ -7,6 +7,7 @@ import Register from "../../Pages/Register/Register";
 import Dashboard from "../../Layout/Dashboard/Dashboard";
 import BookParcel from "../../Pages/DashboardPages/UserDashboardPages/BookParcel/BookParcel";
 import MyParcels from "../../Pages/DashboardPages/UserDashboardPages/My Parcels/MyParcels";
+import MyParcel2 from "../../Pages/DashboardPages/UserDashboardPages/My Parcels/MyParcel2";
 
 
 const router = createBrowserRouter([
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
             {
                 path: "myparcels",
                 element: <MyParcels />
-            }
+            },
         ]
     }
 ])

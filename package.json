@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.8.6",
+    "@tanstack/react-table": "^8.10.7",
     "axios": "^1.6.2",
     "firebase": "^10.6.0",
     "framer-motion": "^10.16.5",

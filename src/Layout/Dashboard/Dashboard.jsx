@@ -136,9 +136,6 @@ const Dashboard = () => {
 
 
 
-
-
-
                         {/* Normal user routers */}
                         <ul className="menu w-80 text-base-content mt-5 space-y-2">
                             <Link to="/" className="flex justify-start items-center gap-3 font-heading text-sub text-[16px] hover:text-white hover:bg-main py-2 px-4 rounded-[30px] duration-300 font-medium"><FaHome /> Home</Link>

@@ -61,8 +61,11 @@ const BookParcel = () => {
         const longitude = data.longitude;
         const cost = data.price;
         const bookingDate = todayDate;
+        const bookingStatus = "pending";
+        const deliveryManId = " ";
 
-        const newBookingInfo = { name, email, phone, parcelType, parcelWeight, recvName, recvPhone, delvAddress, delvDate, latitude, longitude, cost, bookingDate };
+
+        const newBookingInfo = { name, email, phone, parcelType, parcelWeight, recvName, recvPhone, delvAddress, delvDate, latitude, longitude, cost, bookingDate, bookingStatus, deliveryManId };
 
 
         // send the new booking data to database
