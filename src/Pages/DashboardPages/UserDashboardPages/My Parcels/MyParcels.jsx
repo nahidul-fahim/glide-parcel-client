@@ -35,21 +35,15 @@ const MyParcels = () => {
             {/* all parcels table */}
             <div className="w-full">
                 <div className="overflow-x-auto">
-                    <table className="table table-sm md:table-md lg:table-lg table-pin-rows table-pin-cols">
+                    <table className="table">
                         {/* head */}
                         <thead>
-                            <tr className="font-heading text-darkgray text-center">
+                            <tr className="font-body text-white text-center text-[14px] bg-third">
                                 <th>#</th>
                                 <th>Parcel type</th>
-                                <th>
-                                    Req. delivery date <br />
-                                    Apprx. delivery date <br />
-                                    Booking date
-                                </th>
-                                {/* 
+                                <th>Req. delivery date</th>
                                 <th>Apprx. del. date</th>
-                                <th>Booking date</th> */}
-
+                                <th>Booking date</th>
                                 <th>Deliver man</th>
                                 <th>Booking status</th>
                                 <th>Manage booking</th>
@@ -75,30 +69,26 @@ const MyParcels = () => {
                                     {/* requested date */}
                                     <td className="text-center">
                                         <h4 className="font-medium font-body text-[14px] text-center">{parcel.delvDate}</h4>
-
-                                        <h4 className="font-medium font-body text-[14px]">{parcel.delvDate}</h4>
-
-                                        <h4 className="font-medium font-body text-[14px]">{parcel.bookingDate}</h4>
                                     </td>
 
                                     {/* delivery date */}
-                                    {/* <td className="font-body font-semibold text-[14px] text-center">
+                                    <td className="font-body font-semibold text-[14px] text-center">
                                         <h4 className="font-medium font-body text-[14px]">{parcel.delvDate}</h4>
-                                    </td> */}
+                                    </td>
 
                                     {/* booking date */}
-                                    {/* <td className="font-body font-semibold text-[14px] text-center">
+                                    <td className="font-body font-semibold text-[14px] text-center">
                                         <h4 className="font-medium font-body text-[14px]">{parcel.bookingDate}</h4>
-                                    </td> */}
+                                    </td>
 
                                     {/* delivery man */}
                                     <td className="font-body font-semibold text-[14px] text-center">
-                                        <h4 className="font-medium font-body text-[14px]">X</h4>
+                                        <h4 className="font-medium font-body text-[14px]">{parcel.deliveryManId}</h4>
                                     </td>
 
                                     {/* booking status */}
                                     <td className="font-body font-semibold text-[14px] text-center">
-                                        <h4 className="font-medium font-body text-[14px]">Good</h4>
+                                        <h4 className="font-medium font-body text-[14px]">{parcel.bookingStatus}</h4>
                                     </td>
 
                                     {/* manage booking */}
@@ -109,7 +99,7 @@ const MyParcels = () => {
 
                                     {/* review */}
                                     <th className="font-body font-medium text-[14px]">
-                                        <button className="bg-third text-white text-[14px] hover:bg-main duration-300 px-2 py-1 rounded-[20px] font-body">Review</button>
+                                        <button className="bg-main text-white text-[14px] hover:bg-sub duration-300 px-2 py-1 rounded-[20px] font-body">Review</button>
                                     </th>
 
                                     {/* payment */}
