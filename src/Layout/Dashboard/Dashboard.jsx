@@ -3,21 +3,26 @@ import { FaBars, FaBox, FaBoxes, FaHome, FaUser } from "react-icons/fa";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import Swal from 'sweetalert2';
+import useCurrentUser from "../../Hooks/useCurrentUser/useCurrentUser";
 
 
 
 const Dashboard = () => {
 
-    // necessary images
+    // images
     const logo = "https://i.ibb.co/RbqYPxJ/logo-150-100.png";
     const loadingGif = "https://i.ibb.co/zmckHyD/loading-Gif.gif";
 
 
     // hooks + custom hooks
     const navigate = useNavigate();
+    const { loading, logOut } = useAuthProvider();
+    const {user} = useCurrentUser();
 
-    // get the current user
-    const { currentUser, loading, logOut } = useAuthProvider();
+    console.log(user);
+
+
+
 
     if (loading) {
         return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
@@ -106,7 +111,7 @@ const Dashboard = () => {
 
 
             </div>
-            <div className="drawer-side">
+            <div className="drawer-side z-[99]">
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
 
 
@@ -122,11 +127,11 @@ const Dashboard = () => {
                         <div className="flex justify-start items-center gap-4 mt-5">
                             <div className="avatar">
                                 <div className="w-14 rounded-full">
-                                    <img src={currentUser?.photoURL} alt="Tailwind-CSS-Avatar-component" />
+                                    <img src={user?.photo} alt="Current user" />
                                 </div>
                             </div>
                             <div>
-                                <p className="font-heading font-medium text-[18px] text-sub">{currentUser?.displayName}</p>
+                                <p className="font-heading font-medium text-[18px] text-sub">{user?.name}</p>
                             </div>
                         </div>
 

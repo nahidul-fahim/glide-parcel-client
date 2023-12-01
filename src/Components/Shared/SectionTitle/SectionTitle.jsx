@@ -4,7 +4,7 @@ import { useRef } from "react";
 
 const SectionTitle = ({ firstPart, secondPart }) => {
 
-
+    // hooks and custom hooks
     const animate = useRef(null);
     const isInView = useInView(animate);
 

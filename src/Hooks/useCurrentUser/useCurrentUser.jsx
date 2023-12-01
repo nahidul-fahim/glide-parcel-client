@@ -17,7 +17,7 @@ const useCurrentUser = () => {
     })
 
 
-    return [isPending, user, refetch]
+    return {isPending, user, refetch}
 };
 
 export default useCurrentUser;
