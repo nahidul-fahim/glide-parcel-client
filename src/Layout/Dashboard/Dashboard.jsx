@@ -19,9 +19,6 @@ const Dashboard = () => {
     const { loading, logOut } = useAuthProvider();
     const {user} = useCurrentUser();
 
-    console.log(user);
-
-
 
 
     if (loading) {
