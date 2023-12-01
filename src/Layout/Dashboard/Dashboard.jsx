@@ -1,5 +1,5 @@
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { FaBars, FaBox, FaBoxes, FaHome, FaUser } from "react-icons/fa";
+import { FaBars, FaBox, FaBoxes, FaHome, FaUser, FaRegChartBar, FaLayerGroup } from "react-icons/fa";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import Swal from 'sweetalert2';
@@ -17,13 +17,19 @@ const Dashboard = () => {
     // hooks + custom hooks
     const navigate = useNavigate();
     const { loading, logOut } = useAuthProvider();
-    const {user} = useCurrentUser();
+    const { isPending, user } = useCurrentUser();
 
 
+
+    // conditional loading
+    if (isPending) {
+        return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
+    }
 
     if (loading) {
         return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
     }
+
 
     // Logout user
     const handleLogout = () => {
@@ -48,6 +54,44 @@ const Dashboard = () => {
     }
 
 
+
+
+    // admin dashboard links
+    const adminLinks = <>
+
+        {/* statistics */}
+        <NavLink className="font-heading font-medium text-[16px] flex justify-start items-center gap-4 py-2 px-4 rounded-[30px] duration-300"
+            style={({ isActive }) => {
+                return {
+                    backgroundColor: isActive ? "#16CCF5" : "#16CCF500",
+                    color: isActive ? "white" : "black",
+                    transition: isActive ? "all .3s" : ""
+                }
+            }}
+            to="/dashboard/statistics">
+            <FaRegChartBar  />
+            Statistics
+        </NavLink>
+
+        {/* all parcels */}
+        <NavLink className="font-heading font-medium text-[16px] flex justify-start items-center gap-4 py-2 px-4 rounded-[30px] duration-300"
+            style={({ isActive }) => {
+                return {
+                    backgroundColor: isActive ? "#16CCF5" : "#16CCF500",
+                    color: isActive ? "white" : "black",
+                    transition: isActive ? "all .3s" : ""
+                }
+            }}
+            to="/dashboard/allparcels">
+            <FaLayerGroup />
+            All Parcels
+        </NavLink>
+    </>
+
+
+
+
+
     // user dashboard links
     const userLinks = <>
 
@@ -59,7 +103,7 @@ const Dashboard = () => {
                     transition: isActive ? "all .3s" : ""
                 }
             }}
-            to="/dashboard">
+            to="/dashboard/myprofile">
             <FaUser />
             My Profile
         </NavLink>
@@ -91,7 +135,6 @@ const Dashboard = () => {
         </NavLink>
 
     </>
-
 
 
 
@@ -128,14 +171,23 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div>
-                                <p className="font-heading font-medium text-[18px] text-sub">{user?.name}</p>
+                                <p className="font-heading font-medium text-[18px] text-third capitalize">{user?.name}</p>
+                                <p className="font-heading font-medium text-[15px] text-[#b4b4b4] capitalize">{user?.userType}</p>
                             </div>
                         </div>
 
 
-                        {/* routers for admin / user / delivery man */}
+                        {/* validation and showing routers for admin / user / delivery man */}
                         <ul className="menu w-80 text-black mt-5 space-y-2">
-                            {userLinks}
+                            {
+                                user.userType === "admin" ?
+                                    (<>{adminLinks}</>)
+                                    :
+                                    user.userType === "user" ?
+                                        (<>{userLinks}</>)
+                                        :
+                                        (<>{userLinks}</>)
+                            }
                         </ul>
 
 

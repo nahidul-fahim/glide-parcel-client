@@ -19,6 +19,7 @@ const MyProfile = () => {
     const [isPending, parcels] = useParcels();
     const axiosSecure = useAxiosSecure();
 
+    console.log(user);
 
 
     // handlge file change when image selected
@@ -69,21 +70,23 @@ const MyProfile = () => {
     }
 
 
-
     // get the total cost for the price
     const totalCost = parcels.reduce((total, parcel) => total + parcel.cost, 0);
-
 
 
     // images
     const planeBg = "https://i.ibb.co/dQvP6K8/sectionbg.png";
 
+
+
+
+
     return (
         <div className="flex flex-col justify-center items-center gap-10 w-full py-[20px] px-5">
 
             {/* user intro section */}
-            <div className="bg-white shadow-[0_0_70px_#00000028] p-10 flex flex-col justify-center items-center gap-5 w-full relative">
-                <img src={user.photo} alt={`${user?.name} image`} className="rounded-full z-10 w-[100px] h-[100px]"
+            <div className="bg-white shadow-[0_0_70px_#00000028] p-10 flex flex-col justify-center items-center gap-3 w-full relative">
+                <img src={user.photo} alt={`${user?.name} image`} className="rounded-full bg-cover z-10 w-[100px] h-[100px]"
                 />
 
                 {/* update profile photo */}
@@ -106,6 +109,11 @@ const MyProfile = () => {
 
 
                 <h2 className="mt-4 text-4xl font-body font-bold text-main z-10  text-center">Hi, <span className="text-third">{user?.name}</span></h2>
+
+                <p className="font-body font-semibold text-sub text-[18px] z-10 capitalize">{user.userType}</p>
+
+                <p className="font-body font-medium text-darkgray text-[16px] z-10">Email: <span className="lowercase">{user.email}</span></p>
+
                 <p className="text-darkgray font-body font-medium z-10">ID: {user._id}</p>
                 <img src={planeBg} alt=""
                     className="absolute opacity-70 right-10 z-[1]"

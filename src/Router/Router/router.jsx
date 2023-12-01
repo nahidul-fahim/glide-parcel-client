@@ -9,6 +9,8 @@ import BookParcel from "../../Pages/DashboardPages/UserDashboardPages/BookParcel
 import MyParcels from "../../Pages/DashboardPages/UserDashboardPages/My Parcels/MyParcels";
 import UpdaateBooking from "../../Pages/DashboardPages/UserDashboardPages/UpdateBooking/UpdaateBooking";
 import MyProfile from "../../Pages/DashboardPages/UserDashboardPages/MyProfile/MyProfile";
+import Statistics from "../../Pages/DashboardPages/AdminDashboardPages/Statistics/Statistics";
+import AllParcels from "../../Pages/DashboardPages/AdminDashboardPages/AllParcels/AllParcels";
 
 
 const router = createBrowserRouter([
@@ -41,6 +43,10 @@ const router = createBrowserRouter([
         element: <Dashboard />,
         children: [
             {
+                path: "statistics",
+                element: <Statistics />
+            },
+            {
                 path: "bookparcel",
                 element: <BookParcel />
             },
@@ -54,8 +60,12 @@ const router = createBrowserRouter([
                 loader: ({ params }) => fetch(`http://localhost:5000/booking/${params.id}`),
             },
             {
-                path: "",
+                path: "myprofile",
                 element: <MyProfile />
+            },
+            {
+                path: "allparcels",
+                element: <AllParcels />
             }
         ]
     }
