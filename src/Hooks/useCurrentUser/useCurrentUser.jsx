@@ -8,6 +8,7 @@ const useCurrentUser = () => {
     const { currentUser } = useAuthProvider();
     const axiosSecure = useAxiosSecure();
 
+
     const { isPending, data: user, refetch } = useQuery({
         queryKey: ["user"],
         queryFn: async () => {
@@ -16,8 +17,7 @@ const useCurrentUser = () => {
         }
     })
 
-
-    return {isPending, user, refetch}
+    return { isPending, user, refetch }
 };
 
 export default useCurrentUser;

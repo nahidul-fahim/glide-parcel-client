@@ -180,6 +180,7 @@ const MyParcels = () => {
                     </table>
                 </div>
             </div>
+
         </div>
     );
 };

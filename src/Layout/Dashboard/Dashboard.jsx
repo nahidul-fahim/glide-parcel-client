@@ -4,6 +4,8 @@ import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import Swal from 'sweetalert2';
 import useCurrentUser from "../../Hooks/useCurrentUser/useCurrentUser";
+import useIsAdmin from "../../Hooks/useIsAdmin/useIsAdmin";
+import useIsDeliveryMan from "../../Hooks/useIsDeliveryMan/useIsDeliveryMan";
 
 
 
@@ -18,13 +20,15 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const { loading, logOut } = useAuthProvider();
     const { isPending, user } = useCurrentUser();
+    const [isAdmin] = useIsAdmin();
+    const [isDeliveryMan] = useIsDeliveryMan();
 
 
 
     // conditional loading
-    if (isPending) {
-        return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
-    }
+    // if (isPending) {
+    //     return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
+    // }
 
     if (loading) {
         return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
@@ -69,7 +73,7 @@ const Dashboard = () => {
                 }
             }}
             to="/dashboard/statistics">
-            <FaRegChartBar  />
+            <FaRegChartBar />
             Statistics
         </NavLink>
 
@@ -164,26 +168,31 @@ const Dashboard = () => {
                     <div className="w-full px-4">
 
                         {/* current user information */}
-                        <div className="flex justify-start items-center gap-4 mt-5">
-                            <div className="avatar">
-                                <div className="w-14 rounded-full">
-                                    <img src={user?.photo} alt="Current user" />
+                        {
+                            isPending ?
+                                <span className="flex justify-center items-center loading loading-infinity text-main loading-md"></span>
+                                :
+                                <div className="flex justify-start items-center gap-4 mt-5">
+                                    <div className="avatar">
+                                        <div className="w-14 rounded-full">
+                                            <img src={user?.photo} alt="Current user" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="font-heading font-medium text-[18px] text-third capitalize">{user?.name}</p>
+                                        <p className="font-heading font-medium text-[15px] text-[#b4b4b4] capitalize">{user?.userType}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <p className="font-heading font-medium text-[18px] text-third capitalize">{user?.name}</p>
-                                <p className="font-heading font-medium text-[15px] text-[#b4b4b4] capitalize">{user?.userType}</p>
-                            </div>
-                        </div>
+                        }
 
 
                         {/* validation and showing routers for admin / user / delivery man */}
                         <ul className="menu w-80 text-black mt-5 space-y-2">
                             {
-                                user.userType === "admin" ?
-                                    (<>{adminLinks}</>)
+                                isAdmin ?
+                                    <>{adminLinks}</>
                                     :
-                                    user.userType === "user" ?
+                                    isDeliveryMan ?
                                         (<>{userLinks}</>)
                                         :
                                         (<>{userLinks}</>)
