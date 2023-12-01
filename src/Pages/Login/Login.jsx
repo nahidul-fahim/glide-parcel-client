@@ -76,6 +76,7 @@ const Login = () => {
                 const userInfo = {
                     name: res.user?.displayName,
                     email: res.user?.email,
+                    photo: res.user?.photoURL,
                     userType: "User"
                 }
                 if (res.user) {

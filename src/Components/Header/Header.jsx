@@ -11,7 +11,6 @@ const Header = () => {
 
     // hooks and stats
     const { currentUser, loading, logOut } = useAuthProvider();
-    console.log(currentUser);
 
 
     // Framer motion
@@ -48,6 +47,7 @@ const Header = () => {
             Dashboard
         </NavLink>
     </>
+
 
     // user-profile links
     const userLinks = <div className="flex flex-col gap-5 font-heading">

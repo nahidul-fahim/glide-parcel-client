@@ -24,7 +24,7 @@ const MyProfile = () => {
     return (
         <div className="flex flex-col justify-center items-center">
             <div className="bg-lightgray p-10">
-                <img src={user.} alt="" />
+                {/* <img src={user} alt="" /> */}
             </div>
         </div>
     );

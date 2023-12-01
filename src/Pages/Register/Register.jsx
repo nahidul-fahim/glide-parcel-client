@@ -1,12 +1,19 @@
 import { useRef, useState } from "react";
 import { AiOutlineUserAdd } from "react-icons/ai";
-import { FaUser, FaUnlockAlt, FaEye, FaEyeSlash, FaEnvelope, FaUserCircle } from "react-icons/fa";
+import { FaUser, FaUnlockAlt, FaEye, FaEyeSlash, FaEnvelope } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 import Swal from 'sweetalert2';
 import useAxiosOpen from "../../Hooks/useAxiosOpen/useAxiosOpen";
+import { FaUpload } from "react-icons/fa";
+import axios from "axios";
+
+
+// image hosting api and url
+const imageHostngApiKey = import.meta.env.VITE_IMAGE_HOSTING_SECRETKEY;
+const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${imageHostngApiKey}`;
 
 
 const Register = () => {
@@ -17,6 +24,27 @@ const Register = () => {
     const { createNewUser, updateUser, GoogleSignIn } = useAuthProvider();
     const formRef = useRef(null);
     const axiosOpen = useAxiosOpen();
+    //file to send in imgbb
+    const [selectedFile, setSelectedFile] = useState(null);
+    //file name to show on display
+    const [selectedImage, setSelectedImage] = useState('');
+
+
+
+
+    // handlge file name change when image selected
+    const handleFileChange = e => {
+        e.preventDefault();
+        const fileInput = e.target;
+        if (fileInput.files.length > 0) {
+            setSelectedFile(e.target.files[0])
+            setSelectedImage(fileInput.files[0].name)
+        }
+        else {
+            setSelectedImage('')
+        }
+    }
+
 
 
     // Password show-hide state manage
@@ -28,76 +56,100 @@ const Register = () => {
     // Submission of register form
     const handleRegister = e => {
         e.preventDefault();
-        const form = e.target;
-        const name = form.name.value;
-        const email = form.email.value;
-        const password = form.password.value;
-        const photo = form.photo.value;
-        const userType = form.userType.value;
 
-        const userInfo = { name, email, userType };
-        // console.log(userInfo);
+        // send image to imgbb hositng
+        const formData = new FormData();
+        formData.append('image', selectedFile);
 
-        // password validation checker
-        const regExPattern = /^(?=.*[A-Z])(?=.*[\W_]).{6,}$/;
-
-        setPasswordError('');
-
-        if (!regExPattern.test(password)) {
-            return setPasswordError("Must be at least 6 characters long and contain 1 capital letter, 1 special character");
-        }
-
-        createNewUser(email, password)
+        axios.post(imageUploadUrl, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            params: {
+                key: imageHostngApiKey,
+            },
+        })
             .then(res => {
-                const user = res.user;
-                console.log(user);
-                if (user) {
-                    updateUser(user, name, photo)
-                        .then(() => {
-                            // save the userinfo to database
-                            axiosOpen.post("/user", userInfo)
-                                .then(res => {
-                                    if (res.data.insertedId) {
-                                        formRef.current.reset();
+                if (res.data.success) {
+                    const photo = res.data.data.display_url;
+                    const form = e.target;
+                    const name = form.name.value;
+                    const email = form.email.value;
+                    const password = form.password.value;
+                    const userType = form.userType.value;
+
+                    
+                    const userInfo = { name, email, photo, userType };
+
+
+                    // password validation checker
+                    const regExPattern = /^(?=.*[A-Z])(?=.*[\W_]).{6,}$/;
+
+                    setPasswordError('');
+
+                    if (!regExPattern.test(password)) {
+                        return setPasswordError("Must be at least 6 characters long and contain 1 capital letter, 1 special character");
+                    }
+
+                    createNewUser(email, password)
+                        .then(res => {
+                            const user = res.user;
+                            console.log(user);
+                            if (user) {
+                                updateUser(user, name, photo)
+                                    .then(() => {
+
+                                        // save the user to the database
+                                        axiosOpen.post("/user", userInfo)
+                                            .then(res => {
+                                                if (res.data.insertedId) {
+                                                    formRef.current.reset();
+                                                    Swal.fire({
+                                                        position: "top-end",
+                                                        icon: "success",
+                                                        title: "New user created successfully!",
+                                                        showConfirmButton: false,
+                                                        timer: 1500
+                                                    });
+                                                }
+                                            })
+                                            .catch(error => {
+                                                Swal.fire({
+                                                    position: "top-end",
+                                                    icon: "error",
+                                                    title: `Oops! ${error}`,
+                                                    showConfirmButton: false,
+                                                    timer: 4000
+                                                });
+                                            })
+                                    })
+                                    .catch(error => {
                                         Swal.fire({
                                             position: "top-end",
-                                            icon: "success",
-                                            title: "New user created successfully!",
+                                            icon: "error",
+                                            title: `Oops! ${error}`,
                                             showConfirmButton: false,
                                             timer: 1500
                                         });
-                                    }
-                                })
-                                .catch(error => {
-                                    Swal.fire({
-                                        position: "top-end",
-                                        icon: "error",
-                                        title: `Oops! ${error}`,
-                                        showConfirmButton: false,
-                                        timer: 4000
-                                    });
-                                })
+                                    })
+                            }
                         })
                         .catch(error => {
                             Swal.fire({
                                 position: "top-end",
                                 icon: "error",
-                                title: `Oops! ${error}`,
+                                title: `Oops! ${error.code}`,
                                 showConfirmButton: false,
                                 timer: 1500
                             });
                         })
                 }
             })
-            .catch(error => {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "error",
-                    title: `Oops! ${error.code}`,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            })
+
+
+
+
+
     }
 
 
@@ -105,13 +157,14 @@ const Register = () => {
     const handleGoogleSignIn = () => {
         GoogleSignIn()
             .then(res => {
-                console.log(res.user);
                 const userInfo = {
                     name: res.user?.displayName,
                     email: res.user?.email,
+                    photo: res.user?.photoURL,
                     userType: "User"
                 }
                 if (res.user) {
+
                     // save the userinfo to database
                     axiosOpen.post("/user", userInfo)
                         .then(res => {
@@ -195,17 +248,30 @@ const Register = () => {
 
 
                     {/* photo input */}
-                    <div className="relative flex flex-col justify-center items-center">
-                        <input required type="text" name="photo" placeholder="Your photo" id="photo" className="w-full focus:outline-none px-[50px] py-2 rounded-[20px]" />
-                        <FaUserCircle className="absolute top-3 left-5 text-darkgray" />
-                    </div>
+                    <label
+                        htmlFor="photo"
+                        className="relative flex items-center justify-start w-[87%] lg:w-[85%] h-10 cursor-pointer bg-[#ffffff] text-darkgray rounded-[40px]">
+                        <span className="text-darkgray font-heading font-medium ml-[50px]">
+                            {selectedImage || 'Your profile image'}
+                        </span>
+                        <input
+                            type="file"
+                            name="photo"
+                            id="photo"
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                            onChange={handleFileChange}
+                        />
+                        <FaUpload className="absolute top-3 left-5 text-darkgray" />
+                    </label>
+
 
                     {/* Select user type */}
-                    <select required name="userType" id="userType" className="select select-bordered w-[88%] lg:w-[85%] focus:outline-none px-[20px] rounded-[20px] text-[16px]">
-                        <option disabled selected className="text-sub">Select your role</option>
+                    <select defaultValue="Select your role" required name="userType" id="userType" className="select select-bordered w-[88%] lg:w-[85%] focus:outline-none px-[20px] rounded-[20px] text-[16px]">
+                        <option disabled value="Select your role" className="text-sub">Select your role</option>
                         <option>User</option>
                         <option>Delivery man</option>
                     </select>
+
 
                     {/* submit button */}
                     <input type="submit" value="Register" className="w-[50%] bg-sub text-white rounded-[20px] py-2 font-medium cursor-pointer hover:bg-white hover:text-sub duration-500" />
@@ -215,7 +281,7 @@ const Register = () => {
                 <p className=" text-center font-body font-semibold text-sub">Already have an account? <span className="font-semibold text-white border-b-2 pb-1 hover:text-sub hover:border-sub duration-300 font-heading ml-2"><Link to="/login">Login</Link></span></p>
 
                 {/* Social signup */}
-                <button onClick={handleGoogleSignIn} className="mt-7 font-heading font-medium rounded-[20px] flex justify-center items-center px-10 py-2 bg-white hover:bg-sub hover:text-white duration-500"><FcGoogle className="mr-4 text-xl" /> Continue with Google</button>
+                <button onClick={handleGoogleSignIn} className="mt-7 font-heading font-medium rounded-[20px] flex justify-center items-center px-10 py-2 bg-white hover:bg-sub hover:text-white duration-500"><FcGoogle className="mr-4 text-xl" />Continue with Google</button>
             </div>
         </div>
     );
