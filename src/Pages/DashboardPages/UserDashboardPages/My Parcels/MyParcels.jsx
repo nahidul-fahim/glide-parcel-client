@@ -1,6 +1,5 @@
 import useParcels from "../../../../Hooks/useParcels/useParcels";
-import { GrUpdate } from "react-icons/gr";
-import { GiCancel } from "react-icons/gi";
+import { MdCancel, MdChangeCircle } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Swal from 'sweetalert2';
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure/useAxiosSecure";
@@ -62,18 +61,6 @@ const MyParcels = () => {
                     })
             }
         });
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
 
@@ -165,7 +152,7 @@ const MyParcels = () => {
                                             <button
                                                 disabled={parcel.bookingStatus !== "pending"}
                                                 className={`${parcel.bookingStatus !== "pending" ? 'cursor-not-allowed opacity-40' : ''}`}>
-                                                <GrUpdate className="text-3xl p-1 rounded-full text-[#0084ff]" />
+                                                <MdChangeCircle className="text-3xl rounded-full text-[#0084ff]" />
                                             </button>
                                         </Link>
 
@@ -174,7 +161,7 @@ const MyParcels = () => {
                                             disabled={parcel.bookingStatus !== "pending"}
                                             className={`${parcel.bookingStatus !== "pending" ? 'cursor-not-allowed opacity-40' : ''}`}
                                         >
-                                            <GiCancel className="text-3xl p-1 rounded-full text-[red]" />
+                                            <MdCancel className="text-3xl mt-[-5px] rounded-full text-[red]" />
                                         </button>
                                     </td>
 

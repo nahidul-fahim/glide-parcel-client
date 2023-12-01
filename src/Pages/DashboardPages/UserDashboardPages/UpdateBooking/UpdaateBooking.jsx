@@ -56,8 +56,9 @@ const UpdaateBooking = () => {
         const delvDate = data.delvDate;
         const latitude = data.latitude;
         const longitude = data.longitude;
+        const bookingStatus = "pending";
 
-        const updatedBookingInfo = { phone, parcelType, recvName, recvPhone, delvAddress, delvDate, latitude, longitude };
+        const updatedBookingInfo = { phone, parcelType, recvName, recvPhone, delvAddress, delvDate, latitude, longitude, bookingStatus };
 
         // send the new booking data to database
         axiosSecure.put(`updatebooking/${_id}`, updatedBookingInfo)

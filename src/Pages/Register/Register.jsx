@@ -76,7 +76,7 @@ const Register = () => {
                     const name = form.name.value;
                     const email = form.email.value;
                     const password = form.password.value;
-                    const userType = form.userType.value;
+                    const userType = form.userType.value.toLowerCase();
 
                     
                     const userInfo = { name, email, photo, userType };
@@ -146,10 +146,6 @@ const Register = () => {
                 }
             })
 
-
-
-
-
     }
 
 
@@ -161,7 +157,7 @@ const Register = () => {
                     name: res.user?.displayName,
                     email: res.user?.email,
                     photo: res.user?.photoURL,
-                    userType: "User"
+                    userType: "user"
                 }
                 if (res.user) {
 
