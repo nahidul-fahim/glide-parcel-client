@@ -89,7 +89,7 @@ const MyParcels = () => {
                                 <th>Req. delivery date</th>
                                 <th>Apprx. del. date</th>
                                 <th>Booking date</th>
-                                <th>Deliver man</th>
+                                <th>Delivery man</th>
                                 <th>Booking status</th>
                                 <th>Manage booking</th>
                                 <th>Review</th>
@@ -113,12 +113,12 @@ const MyParcels = () => {
 
                                     {/* requested date */}
                                     <td className="text-center">
-                                        <h4 className="font-medium font-body text-[14px] text-center">{parcel.delvDate}</h4>
+                                        <h4 className="font-medium font-body text-[14px] text-center">{parcel.reqDate}</h4>
                                     </td>
 
-                                    {/* delivery date */}
+                                    {/* approximate delivery date */}
                                     <td className="font-body font-semibold text-[14px] text-center">
-                                        <h4 className="font-medium font-body text-[14px]">{parcel.delvDate}</h4>
+                                        <h4 className="font-medium font-body text-[14px]">{parcel?.apprxDelvDate || "Pending"}</h4>
                                     </td>
 
                                     {/* booking date */}
@@ -128,7 +128,7 @@ const MyParcels = () => {
 
                                     {/* delivery man */}
                                     <td className="font-body font-semibold text-[14px] text-center">
-                                        <h4 className="font-medium font-body text-[14px]">{parcel.deliveryManId}</h4>
+                                        <h4 className="font-medium font-body text-[14px]">{parcel?.deliveryManId || "Pending"}</h4>
                                     </td>
 
                                     {/* booking status */}

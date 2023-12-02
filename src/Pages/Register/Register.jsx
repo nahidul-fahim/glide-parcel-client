@@ -95,7 +95,6 @@ const Register = () => {
                     createNewUser(email, password)
                         .then(res => {
                             const user = res.user;
-                            console.log(user);
                             if (user) {
                                 updateUser(user, name, photo)
                                     .then(() => {

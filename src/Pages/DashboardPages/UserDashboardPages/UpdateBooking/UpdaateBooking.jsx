@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure/useAxiosSecure";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 // import { useQuery } from "@tanstack/react-query";
 import Swal from 'sweetalert2';
 
@@ -39,7 +39,7 @@ const UpdaateBooking = () => {
 
 
     // get all the data
-    const { _id ,name, email, phone, parcelType, parcelWeight, recvName, recvPhone, delvAddress, delvDate, latitude, longitude, cost } = parcel;
+    const { _id ,name, email, phone, parcelType, parcelWeight, recvName, recvPhone, delvAddress, reqDate, latitude, longitude, cost } = parcel;
 
 
     // get today's date and validate for min date in the form's date picker
@@ -53,12 +53,12 @@ const UpdaateBooking = () => {
         const recvName = data.recvName;
         const recvPhone = data.recvPhone;
         const delvAddress = data.delvAddress;
-        const delvDate = data.delvDate;
+        const reqDate = data.reqDate;
         const latitude = data.latitude;
         const longitude = data.longitude;
         const bookingStatus = "pending";
 
-        const updatedBookingInfo = { phone, parcelType, recvName, recvPhone, delvAddress, delvDate, latitude, longitude, bookingStatus };
+        const updatedBookingInfo = { phone, parcelType, recvName, recvPhone, delvAddress, reqDate, latitude, longitude, bookingStatus };
 
         // send the new booking data to database
         axiosSecure.put(`/updatebooking/${_id}`, updatedBookingInfo)
@@ -187,11 +187,11 @@ const UpdaateBooking = () => {
                         <label className="label">
                             <span className="label-text font-body text-black font-semibold">Requested delivery date <span className="text-[red]">*</span></span>
                         </label>
-                        <input type="date" min={todayDate} {...register("delvDate", { required: true })}
+                        <input type="date" min={todayDate} {...register("reqDate", { required: true })}
                             className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black"
-                            defaultValue={delvDate} />
+                            defaultValue={reqDate} />
 
-                        {errors.delvDate && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
+                        {errors.reqDate && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
                     </div>
 
                     {/* Delivery latitude and longitude*/}

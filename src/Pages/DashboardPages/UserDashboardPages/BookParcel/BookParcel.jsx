@@ -64,10 +64,9 @@ const BookParcel = () => {
         const cost = data.price;
         const bookingDate = todayDate;
         const bookingStatus = "pending";
-        const deliveryManId = " ";
 
 
-        const newBookingInfo = { name, email, phone, parcelType, parcelWeight, recvName, recvPhone, delvAddress, reqDate, latitude, longitude, cost, bookingDate, bookingStatus, deliveryManId };
+        const newBookingInfo = { name, email, phone, parcelType, parcelWeight, recvName, recvPhone, delvAddress, reqDate, latitude, longitude, cost, bookingDate, bookingStatus };
 
 
         // send the new booking data to database
@@ -75,7 +74,9 @@ const BookParcel = () => {
             .then(res => {
                 if (res.data.insertedId) {
                     const email = currentUser.email;
-                    axiosSecure.put(`/totalorder/${email}`)
+                    const totalSpent = { cost };
+
+                    axiosSecure.put(`/totalorder/${email}`, totalSpent)
 
                     // show success message
                     Swal.fire({

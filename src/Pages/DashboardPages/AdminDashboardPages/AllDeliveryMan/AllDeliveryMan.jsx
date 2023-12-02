@@ -56,7 +56,7 @@ const AllDeliveryMan = () => {
 
                                 {/* delivery man phone */}
                                 <td className="text-center">
-                                    <h4 className="font-medium font-body text-[14px] text-center">{deliveryMan?.phone}</h4>
+                                    <h4 className="font-medium font-body text-[14px] text-center">{deliveryMan?.phone || "Unavailable"}</h4>
                                 </td>
 
                                 {/* total number of completed delivery */}
