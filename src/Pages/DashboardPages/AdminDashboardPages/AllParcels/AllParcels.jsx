@@ -1,23 +1,80 @@
+import { useQuery } from "@tanstack/react-query";
 import useAllParcels from "../../../../Hooks/useAllParcels/useAllParcels";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure/useAxiosSecure";
+import { useState } from "react";
 
 
 // images
 const loadingGif = "https://i.ibb.co/zmckHyD/loading-Gif.gif";
 
+
+
 const AllParcels = () => {
-
-
 
     // hooks and custom hooks
     const { isPending, allparcels, refetch } = useAllParcels();
+    const axiosSecure = useAxiosSecure();
+    const [managingBookingId, setManagingBookingId] = useState(null);
+
+
+    const { isPending: deliveryManPending, data: allDeliveryMan = [], refetch: deliveryManRefetch } = useQuery({
+        queryKey: ["deliveryMan"],
+        queryFn: async () => {
+            const res = await axiosSecure.get("/deliveryman")
+            return res.data
+        }
+    })
 
 
     // conditional loading state
     if (isPending) {
         return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="loading gif" /></div>
     }
+    if (deliveryManPending) {
+        return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="loading gif" /></div>
+    }
 
 
+    // open modal fuction
+    // eslint-disable-next-line no-unused-vars
+    const openAdminModal = id => {
+        setManagingBookingId(id);
+        const modal = document.getElementById('adminModal');
+        modal.showModal()
+        return modal;
+    }
+
+
+    const handleAdminAssign = e => {
+        e.preventDefault();
+        const form = e.target;
+        const deliveryManId = form.deliveryManId.value;
+        const apprxDelvDate = form.apprxDelvDate.value;
+
+        console.log(managingBookingId, deliveryManId, apprxDelvDate);
+
+
+
+
+        // Close the modal after form submission
+        const modal = document.getElementById('adminModal');
+        modal.close();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // get today's date and validate for min date in the form's date picker
+    const todayDate = new Date().toISOString().split('T')[0];
 
 
 
@@ -94,7 +151,8 @@ const AllParcels = () => {
 
                                     {/* manage button (action) */}
                                     <td className="font-body font-semibold text-[14px]">
-                                        <button className="bg-main text-white font-body font-medium px-3 py-1 rounded-[20px] hover:bg-third duration-300">
+                                        <button onClick={() => openAdminModal(`${parcel._id}`)}
+                                            className="bg-main text-white font-body font-medium px-3 py-1 rounded-[20px] hover:bg-third duration-300">
                                             Manage
                                         </button>
                                     </td>
@@ -103,6 +161,56 @@ const AllParcels = () => {
                             }
                         </tbody>
                     </table>
+
+
+                    {/* modal showing when clicked on the manage button */}
+                    <dialog id="adminModal" className="modal modal-bottom sm:modal-middle w-full">
+                        <div className="modal-box flex flex-col justify-center items-center gap-3 w-full p-5">
+
+                            <h2 className="text-third text-3xl font-heading font-bold">Mange Parcel</h2>
+
+                            <div className="modal-action flex flex-col justify-center items-center w-full">
+                                {/* button in the form will work as close button */}
+                                <form onSubmit={handleAdminAssign}
+                                    method="dialog"
+                                    className="flex flex-col justify-center items-center gap-5 w-full p-5">
+                                    {/* Select delivery man */}
+                                    <div className="w-full flex flex-col justify-start items-center gap-3">
+                                        <label className="flex justify-start items-start w-full">
+                                            <span className="label-text font-body text-black font-semibold">Select delivery man <span className="text-[red]">*</span> </span>
+                                        </label>
+                                        <select defaultValue="Select delivery man" required name="deliveryManId" id="deliveryManId" className="select select-bordered w-full focus:outline-none px-[20px] rounded-[20px] text-[16px]">
+                                            <option disabled value="Select delivery man" className="text-sub">Select delivery man</option>
+                                            {
+                                                allDeliveryMan.map(deliveryMan =>
+                                                    <option key={deliveryMan._id}>
+                                                        {deliveryMan.name}
+                                                    </option>)
+                                            }
+                                        </select>
+                                    </div>
+
+
+                                    {/* select approximate delivery date */}
+                                    <div className="w-full flex flex-col justify-start items-center gap-1">
+                                        <label className="label text-left w-full">
+                                            <span className="label-text font-body text-black font-semibold">Approximate delivery date <span className="text-[red]">*</span></span>
+                                        </label>
+                                        <input type="date" min={todayDate} name="apprxDelvDate" id="apprxDelvDate" required
+                                            className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black" />
+                                    </div>
+
+                                    {/* assign button (form subsmission button) */}
+                                    <div className="w-full flex justify-start items-center">
+                                        <input type="submit" value="Assign" className="w-fit text-white bg-third px-5 py-2 rounded-[80px] hover:bg-main duration-500 font-body font-semibold cursor-pointer tracking-[1px]" />
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </dialog>
+
                 </div>
             </div>
 

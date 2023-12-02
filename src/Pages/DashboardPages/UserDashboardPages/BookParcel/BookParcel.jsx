@@ -191,14 +191,13 @@ const BookParcel = () => {
                         {errors.delvAddress && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
                     </div>
 
-                    {/* Delivery date field */}
+                    {/* requested delivery date field */}
                     <div className="w-full lg:w-2/3 flex flex-col justify-center items-start gap-1">
                         <label className="label">
                             <span className="label-text font-body text-black font-semibold">Requested delivery date <span className="text-[red]">*</span></span>
                         </label>
                         <input type="date" min={todayDate} {...register("delvDate", { required: true })}
-                            className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black"
-                            placeholder="Receiver's phone number" />
+                            className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black" />
 
                         {errors.delvDate && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
                     </div>
