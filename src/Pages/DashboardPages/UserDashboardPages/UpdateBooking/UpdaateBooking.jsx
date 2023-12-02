@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure/useAxiosSecure";
 import { useLoaderData, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
 import Swal from 'sweetalert2';
 
 
@@ -61,7 +61,7 @@ const UpdaateBooking = () => {
         const updatedBookingInfo = { phone, parcelType, recvName, recvPhone, delvAddress, delvDate, latitude, longitude, bookingStatus };
 
         // send the new booking data to database
-        axiosSecure.put(`updatebooking/${_id}`, updatedBookingInfo)
+        axiosSecure.put(`/updatebooking/${_id}`, updatedBookingInfo)
             .then(res => {
                 if (res.data.modifiedCount > 0) {
                     Swal.fire({

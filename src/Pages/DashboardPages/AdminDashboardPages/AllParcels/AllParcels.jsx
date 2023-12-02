@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
 import useAllParcels from "../../../../Hooks/useAllParcels/useAllParcels";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure/useAxiosSecure";
 import { useState } from "react";
-
+import Swal from 'sweetalert2';
+import useAllDeliveryMan from "../../../../Hooks/useAllDeliveryMan/useAllDeliveryMan";
 
 // images
 const loadingGif = "https://i.ibb.co/zmckHyD/loading-Gif.gif";
@@ -15,15 +15,7 @@ const AllParcels = () => {
     const { isPending, allparcels, refetch } = useAllParcels();
     const axiosSecure = useAxiosSecure();
     const [managingBookingId, setManagingBookingId] = useState(null);
-
-
-    const { isPending: deliveryManPending, data: allDeliveryMan = [], refetch: deliveryManRefetch } = useQuery({
-        queryKey: ["deliveryMan"],
-        queryFn: async () => {
-            const res = await axiosSecure.get("/deliveryman")
-            return res.data
-        }
-    })
+    const { deliveryManPending, allDeliveryMan } = useAllDeliveryMan();
 
 
     // conditional loading state
@@ -36,7 +28,6 @@ const AllParcels = () => {
 
 
     // open modal fuction
-    // eslint-disable-next-line no-unused-vars
     const openAdminModal = id => {
         setManagingBookingId(id);
         const modal = document.getElementById('adminModal');
@@ -45,32 +36,45 @@ const AllParcels = () => {
     }
 
 
+    // getting value from modal and send to the database
     const handleAdminAssign = e => {
         e.preventDefault();
         const form = e.target;
         const deliveryManId = form.deliveryManId.value;
         const apprxDelvDate = form.apprxDelvDate.value;
+        const bookingStatus = "on the way";
 
-        console.log(managingBookingId, deliveryManId, apprxDelvDate);
+        const adminAssignInfo = { deliveryManId, apprxDelvDate, bookingStatus };
 
 
-
+        // send the updated booking data to database
+        axiosSecure.put(`/updatebyadmin/${managingBookingId}`, adminAssignInfo)
+            .then(res => {
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Successfully updated!",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: `Oops! ${error}`,
+                    showConfirmButton: false,
+                    timer: 4000,
+                });
+            })
 
         // Close the modal after form submission
         const modal = document.getElementById('adminModal');
         modal.close();
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
     // get today's date and validate for min date in the form's date picker
@@ -170,10 +174,12 @@ const AllParcels = () => {
                             <h2 className="text-third text-3xl font-heading font-bold">Mange Parcel</h2>
 
                             <div className="modal-action flex flex-col justify-center items-center w-full">
-                                {/* button in the form will work as close button */}
+
+                                {/* admin assign form */}
                                 <form onSubmit={handleAdminAssign}
                                     method="dialog"
                                     className="flex flex-col justify-center items-center gap-5 w-full p-5">
+
                                     {/* Select delivery man */}
                                     <div className="w-full flex flex-col justify-start items-center gap-3">
                                         <label className="flex justify-start items-start w-full">
@@ -183,13 +189,12 @@ const AllParcels = () => {
                                             <option disabled value="Select delivery man" className="text-sub">Select delivery man</option>
                                             {
                                                 allDeliveryMan.map(deliveryMan =>
-                                                    <option key={deliveryMan._id}>
+                                                    <option key={deliveryMan._id} value={deliveryMan._id}>
                                                         {deliveryMan.name}
                                                     </option>)
                                             }
                                         </select>
                                     </div>
-
 
                                     {/* select approximate delivery date */}
                                     <div className="w-full flex flex-col justify-start items-center gap-1">
@@ -204,7 +209,6 @@ const AllParcels = () => {
                                     <div className="w-full flex justify-start items-center">
                                         <input type="submit" value="Assign" className="w-fit text-white bg-third px-5 py-2 rounded-[80px] hover:bg-main duration-500 font-body font-semibold cursor-pointer tracking-[1px]" />
                                     </div>
-
                                 </form>
                             </div>
 

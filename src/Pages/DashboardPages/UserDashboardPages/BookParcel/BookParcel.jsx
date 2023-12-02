@@ -12,6 +12,8 @@ const BookParcel = () => {
     const { currentUser } = useAuthProvider();
     const [price, setPrice] = useState(0);
     const axiosSecure = useAxiosSecure();
+
+
     // react hook form
     const {
         register,
@@ -56,7 +58,7 @@ const BookParcel = () => {
         const recvName = data.recvName;
         const recvPhone = data.recvPhone;
         const delvAddress = data.delvAddress;
-        const delvDate = data.delvDate;
+        const reqDate = data.reqDate;
         const latitude = data.latitude;
         const longitude = data.longitude;
         const cost = data.price;
@@ -65,13 +67,17 @@ const BookParcel = () => {
         const deliveryManId = " ";
 
 
-        const newBookingInfo = { name, email, phone, parcelType, parcelWeight, recvName, recvPhone, delvAddress, delvDate, latitude, longitude, cost, bookingDate, bookingStatus, deliveryManId };
+        const newBookingInfo = { name, email, phone, parcelType, parcelWeight, recvName, recvPhone, delvAddress, reqDate, latitude, longitude, cost, bookingDate, bookingStatus, deliveryManId };
 
 
         // send the new booking data to database
         axiosSecure.post("/booking", newBookingInfo)
             .then(res => {
                 if (res.data.insertedId) {
+                    const email = currentUser.email;
+                    axiosSecure.put(`/totalorder/${email}`)
+
+                    // show success message
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
@@ -196,10 +202,10 @@ const BookParcel = () => {
                         <label className="label">
                             <span className="label-text font-body text-black font-semibold">Requested delivery date <span className="text-[red]">*</span></span>
                         </label>
-                        <input type="date" min={todayDate} {...register("delvDate", { required: true })}
+                        <input type="date" min={todayDate} {...register("reqDate", { required: true })}
                             className="w-full border-lightgray border-[1px] px-5 py-2 rounded-[20px] focus:outline-none focus:border-third font-body text-black" />
 
-                        {errors.delvDate && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
+                        {errors.reqDate && <span className="font-body text-[14px] text-[#a12121] font-medium">This field is required</span>}
                     </div>
 
                     {/* Delivery latitude and longitude*/}

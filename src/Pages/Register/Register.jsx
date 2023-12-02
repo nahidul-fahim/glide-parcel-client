@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { AiOutlineUserAdd } from "react-icons/ai";
-import { FaUser, FaUnlockAlt, FaEye, FaEyeSlash, FaEnvelope } from "react-icons/fa";
+import { FaUser, FaUnlockAlt, FaEye, FaEyeSlash, FaEnvelope, FaPhone } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
@@ -75,11 +75,12 @@ const Register = () => {
                     const form = e.target;
                     const name = form.name.value;
                     const email = form.email.value;
+                    const phone = form.phone.value;
                     const password = form.password.value;
                     const userType = form.userType.value.toLowerCase();
 
-                    
-                    const userInfo = { name, email, photo, userType };
+
+                    const userInfo = { name, email, phone, photo, userType };
 
 
                     // password validation checker
@@ -222,6 +223,12 @@ const Register = () => {
                     <div className="relative flex flex-col justify-center items-center">
                         <input required type="email" name="email" placeholder="Your email" id="email" className="w-full focus:outline-none px-[50px] py-2 rounded-[20px]" />
                         <FaEnvelope className="absolute top-3 left-5 text-darkgray" />
+                    </div>
+
+                    {/* phone number input */}
+                    <div className="relative flex flex-col justify-center items-center">
+                        <input required type="tel" name="phone" placeholder="Your phone" id="phone" className="w-full focus:outline-none px-[50px] py-2 rounded-[20px]" />
+                        <FaPhone className="absolute top-3 left-5 text-darkgray" />
                     </div>
 
                     {/* password input */}

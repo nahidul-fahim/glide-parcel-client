@@ -61,8 +61,7 @@ const MyProfile = () => {
         }
     }
 
-
-
+    
     // Loading state if no data found
     const loadingGif = "https://i.ibb.co/zmckHyD/loading-Gif.gif";
     if (isPending) {
@@ -76,8 +75,6 @@ const MyProfile = () => {
 
     // images
     const planeBg = "https://i.ibb.co/dQvP6K8/sectionbg.png";
-
-
 
 
 

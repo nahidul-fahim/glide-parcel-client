@@ -11,6 +11,8 @@ import UpdaateBooking from "../../Pages/DashboardPages/UserDashboardPages/Update
 import MyProfile from "../../Pages/DashboardPages/UserDashboardPages/MyProfile/MyProfile";
 import Statistics from "../../Pages/DashboardPages/AdminDashboardPages/Statistics/Statistics";
 import AllParcels from "../../Pages/DashboardPages/AdminDashboardPages/AllParcels/AllParcels";
+import AllDeliveryMan from "../../Pages/DashboardPages/AdminDashboardPages/AllDeliveryMan/AllDeliveryMan";
+import AllUsers from "../../Pages/DashboardPages/AdminDashboardPages/AllUsers/AllUsers";
 
 
 const router = createBrowserRouter([
@@ -66,7 +68,15 @@ const router = createBrowserRouter([
             {
                 path: "allparcels",
                 element: <AllParcels />
-            }
+            },
+            {
+                path: "alldeliveryman",
+                element: <AllDeliveryMan />
+            },
+            {
+                path: "allusers",
+                element: <AllUsers />
+            },
         ]
     }
 ])
