@@ -6,6 +6,10 @@ import useAxiosSecure from "../../../../Hooks/useAxiosSecure/useAxiosSecure";
 import axios from "axios";
 
 
+// loading gif
+const loadingGif = "https://i.ibb.co/zmckHyD/loading-Gif.gif";
+
+
 // image hosting api and url
 const imageHostngApiKey = import.meta.env.VITE_IMAGE_HOSTING_SECRETKEY;
 const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${imageHostngApiKey}`;
@@ -13,13 +17,16 @@ const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${imageHostngApiKey}`
 const MyProfile = () => {
 
     // hooks and custom hooks
-    const { user, refetch } = useCurrentUser();
+    const { isPending: userPending, user, refetch } = useCurrentUser();
     const animate = useRef();
     const isInView = useInView(animate);
     const [isPending, parcels] = useParcels();
     const axiosSecure = useAxiosSecure();
 
-    console.log(user);
+
+    if (userPending) {
+        return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
+    }
 
 
     // handlge file change when image selected
@@ -47,7 +54,7 @@ const MyProfile = () => {
                         const photo = res.data.data.display_url;
                         const updatedImg = { photo };
                         // send the updated profile image to databse
-                        axiosSecure.put(`/profilePic/${user.email}`, updatedImg)
+                        axiosSecure.put(`/profilePic/${user?.email}`, updatedImg)
                             .then(res => {
                                 if (res.data.modifiedCount) {
                                     refetch();
@@ -61,9 +68,8 @@ const MyProfile = () => {
         }
     }
 
-    
+
     // Loading state if no data found
-    const loadingGif = "https://i.ibb.co/zmckHyD/loading-Gif.gif";
     if (isPending) {
         return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
     }
@@ -83,7 +89,7 @@ const MyProfile = () => {
 
             {/* user intro section */}
             <div className="bg-white shadow-[0_0_70px_#00000028] p-10 flex flex-col justify-center items-center gap-3 w-full relative">
-                <img src={user.photo} alt={`${user?.name} image`} className="rounded-full bg-cover z-10 w-[100px] h-[100px]"
+                <img src={user?.photo} alt={`${user?.name} image`} className="rounded-full bg-cover z-10 w-[100px] h-[100px]"
                 />
 
                 {/* update profile photo */}
@@ -107,11 +113,11 @@ const MyProfile = () => {
 
                 <h2 className="mt-4 text-4xl font-body font-bold text-main z-10  text-center">Hi, <span className="text-third">{user?.name}</span></h2>
 
-                <p className="font-body font-semibold text-sub text-[18px] z-10 capitalize">{user.userType}</p>
+                <p className="font-body font-semibold text-sub text-[18px] z-10 capitalize">{user?.userType}</p>
 
-                <p className="font-body font-medium text-darkgray text-[16px] z-10">Email: <span className="lowercase">{user.email}</span></p>
+                <p className="font-body font-medium text-darkgray text-[16px] z-10">Email: <span className="lowercase">{user?.email}</span></p>
 
-                <p className="text-darkgray font-body font-medium z-10">ID: {user._id}</p>
+                <p className="text-darkgray font-body font-medium z-10">ID: {user?._id}</p>
                 <img src={planeBg} alt=""
                     className="absolute opacity-70 right-10 z-[1]"
                     ref={animate}

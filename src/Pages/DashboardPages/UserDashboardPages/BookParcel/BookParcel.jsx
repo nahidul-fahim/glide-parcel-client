@@ -76,6 +76,7 @@ const BookParcel = () => {
                     const email = currentUser.email;
                     const totalSpent = { cost };
 
+                    //send total spent to the database
                     axiosSecure.put(`/totalorder/${email}`, totalSpent)
 
                     // show success message

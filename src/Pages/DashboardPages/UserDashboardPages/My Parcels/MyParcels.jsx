@@ -5,20 +5,27 @@ import Swal from 'sweetalert2';
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure/useAxiosSecure";
 
 
+//images + gif
+const loadingGif = "https://i.ibb.co/zmckHyD/loading-Gif.gif";
+
+
+
 const MyParcels = () => {
 
     // hooks and custom hooks
     const [isPending, parcels, refetch] = useParcels();
     const axiosSecure = useAxiosSecure();
 
+
     // Loading state if no data found
-    const loadingGif = "https://i.ibb.co/zmckHyD/loading-Gif.gif";
     if (isPending) {
         return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
     }
 
+
     // get the total cost for the price
     const totalCost = parcels.reduce((total, parcel) => total + parcel.cost, 0);
+
 
     // cancel a booking
     const handleCancel = id => {

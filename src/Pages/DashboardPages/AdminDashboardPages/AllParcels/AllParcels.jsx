@@ -117,48 +117,54 @@ const AllParcels = () => {
 
                                     {/* Booker name */}
                                     <td>
-                                        <h4 className="font-medium font-body text-[14px] text-center">{parcel.name}</h4>
+                                        <h4 className="font-medium font-body text-[14px] text-center">{parcel?.name}</h4>
                                     </td>
 
                                     {/* booker phone */}
                                     <td className="text-center">
-                                        <h4 className="font-medium font-body text-[14px] text-center">{parcel.phone}</h4>
+                                        <h4 className="font-medium font-body text-[14px] text-center">{parcel?.phone}</h4>
                                     </td>
 
                                     {/* booking date */}
                                     <td className="font-body font-semibold text-[14px] text-center">
-                                        <h4 className="font-medium font-body text-[14px]">{parcel.bookingDate}</h4>
+                                        <h4 className="font-medium font-body text-[14px]">{parcel?.bookingDate}</h4>
                                     </td>
 
                                     {/* requested delivery date */}
                                     <td className="font-body font-semibold text-[14px] text-center">
-                                        <h4 className="font-medium font-body text-[14px]">{parcel.reqDate}</h4>
+                                        <h4 className="font-medium font-body text-[14px]">{parcel?.reqDate}</h4>
                                     </td>
 
                                     {/* cost */}
                                     <td className="font-body font-semibold text-[14px] text-center">
-                                        <h4 className="font-medium font-body text-[14px]">${parcel.cost}</h4>
+                                        <h4 className="font-medium font-body text-[14px]">${parcel?.cost}</h4>
                                     </td>
 
                                     {/* booking status */}
                                     <td className="font-body font-semibold text-[14px] text-center">
                                         <h4
                                             className={`font-semibold capitalize font-body text-[14px]
-                                            ${parcel.bookingStatus === "pending" ? "text-[#ff9100]" : 'text-black'}
-                                            ${parcel.bookingStatus === "cancelled" ? "text-[#ff0000]" : 'text-black'}
-                                            ${parcel.bookingStatus === "delivered" ? "text-[#219e40]" : 'text-black'}
-                                            ${parcel.bookingStatus === "on the way" ? "text-[#008cff]" : 'text-black'}
-                                            ${parcel.bookingStatus === "returned" ? "text-[#8c00ff]" : 'text-black'}`}>
-                                            {parcel.bookingStatus}
+                                            ${parcel?.bookingStatus === "pending" ? "text-[#ff9100]" : 'text-black'}
+                                            ${parcel?.bookingStatus === "cancelled" ? "text-[#ff0000]" : 'text-black'}
+                                            ${parcel?.bookingStatus === "delivered" ? "text-[#219e40]" : 'text-black'}
+                                            ${parcel?.bookingStatus === "on the way" ? "text-[#008cff]" : 'text-black'}
+                                            ${parcel?.bookingStatus === "returned" ? "text-[#8c00ff]" : 'text-black'}`}>
+                                            {parcel?.bookingStatus}
                                         </h4>
                                     </td>
 
                                     {/* manage button (action) */}
                                     <td className="font-body font-semibold text-[14px]">
-                                        <button onClick={() => openAdminModal(`${parcel._id}`)}
-                                            className="bg-main text-white font-body font-medium px-3 py-1 rounded-[20px] hover:bg-third duration-300">
-                                            Manage
-                                        </button>
+                                        {
+                                            (parcel?.bookingStatus === "cancelled" || parcel?.bookingStatus === "completed") ?
+                                                <h4 className="font-Bold text-darkgray uppercase font-body text-[14px]">{parcel?.bookingStatus}</h4>
+                                                :
+                                                <button onClick={() => openAdminModal(`${parcel._id}`)}
+                                                    className="bg-main text-white font-body font-medium px-3 py-1 rounded-[20px] hover:bg-third duration-300">
+                                                    Manage
+                                                </button>
+                                        }
+
                                     </td>
 
                                 </tr>)
