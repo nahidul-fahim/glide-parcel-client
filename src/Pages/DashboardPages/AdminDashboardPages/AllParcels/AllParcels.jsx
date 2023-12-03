@@ -132,7 +132,7 @@ const AllParcels = () => {
 
                                     {/* requested delivery date */}
                                     <td className="font-body font-semibold text-[14px] text-center">
-                                        <h4 className="font-medium font-body text-[14px]">{parcel.delvDate}</h4>
+                                        <h4 className="font-medium font-body text-[14px]">{parcel.reqDate}</h4>
                                     </td>
 
                                     {/* cost */}
@@ -189,7 +189,7 @@ const AllParcels = () => {
                                             <option disabled value="Select delivery man" className="text-sub">Select delivery man</option>
                                             {
                                                 allDeliveryMan.map(deliveryMan =>
-                                                    <option key={deliveryMan._id} value={deliveryMan._id}>
+                                                    <option key={deliveryMan._id} value={`${deliveryMan._id} ${deliveryMan.name}`}>
                                                         {deliveryMan.name}
                                                     </option>)
                                             }

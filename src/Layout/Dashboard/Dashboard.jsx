@@ -1,5 +1,5 @@
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { FaBars, FaBox, FaBoxes, FaHome, FaUser, FaRegChartBar, FaLayerGroup, FaUsers } from "react-icons/fa";
+import { FaBars, FaBox, FaBoxes, FaHome, FaUser, FaRegChartBar, FaLayerGroup, FaUsers, FaList } from "react-icons/fa";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { FaPersonBiking } from "react-icons/fa6";
@@ -24,12 +24,6 @@ const Dashboard = () => {
     const [isAdmin] = useIsAdmin();
     const [isDeliveryMan] = useIsDeliveryMan();
 
-
-
-    // conditional loading
-    // if (isPending) {
-    //     return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
-    // }
 
     if (loading) {
         return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
@@ -60,10 +54,8 @@ const Dashboard = () => {
 
 
 
-
     // admin dashboard links
     const adminLinks = <>
-
         {/* statistics */}
         <NavLink className="font-heading font-medium text-[16px] flex justify-start items-center gap-4 py-2 px-4 rounded-[30px] duration-300"
             style={({ isActive }) => {
@@ -119,8 +111,26 @@ const Dashboard = () => {
             <FaUsers />
             All Users
         </NavLink>
-
     </>
+
+
+    // delivery man dashboard links
+    const deliveryManLinks = <>
+        {/* my delivery list */}
+        <NavLink className="font-heading font-medium text-[16px] flex justify-start items-center gap-4 py-2 px-4 rounded-[30px] duration-300"
+            style={({ isActive }) => {
+                return {
+                    backgroundColor: isActive ? "#16CCF5" : "#16CCF500",
+                    color: isActive ? "white" : "black",
+                    transition: isActive ? "all .3s" : ""
+                }
+            }}
+            to="/dashboard/mydeliverylist">
+            <FaList />
+            My delivery list
+        </NavLink>
+    </>
+
 
 
     // user dashboard links
@@ -220,7 +230,7 @@ const Dashboard = () => {
                                     <>{adminLinks}</>
                                     :
                                     isDeliveryMan ?
-                                        (<>{userLinks}</>)
+                                        (<>{deliveryManLinks}</>)
                                         :
                                         (<>{userLinks}</>)
                             }

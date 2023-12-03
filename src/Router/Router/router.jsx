@@ -13,6 +13,7 @@ import Statistics from "../../Pages/DashboardPages/AdminDashboardPages/Statistic
 import AllParcels from "../../Pages/DashboardPages/AdminDashboardPages/AllParcels/AllParcels";
 import AllDeliveryMan from "../../Pages/DashboardPages/AdminDashboardPages/AllDeliveryMan/AllDeliveryMan";
 import AllUsers from "../../Pages/DashboardPages/AdminDashboardPages/AllUsers/AllUsers";
+import MyDeliveryList from "../../Pages/DashboardPages/DeliveryManDashboardPages/MyDeliveryList/MyDeliveryList";
 
 
 const router = createBrowserRouter([
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
             {
                 path: "allusers",
                 element: <AllUsers />
+            },
+            {
+                path: "mydeliverylist",
+                element: <MyDeliveryList />
             },
         ]
     }
