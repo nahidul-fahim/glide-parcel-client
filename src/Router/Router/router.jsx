@@ -14,6 +14,7 @@ import AllParcels from "../../Pages/DashboardPages/AdminDashboardPages/AllParcel
 import AllDeliveryMan from "../../Pages/DashboardPages/AdminDashboardPages/AllDeliveryMan/AllDeliveryMan";
 import AllUsers from "../../Pages/DashboardPages/AdminDashboardPages/AllUsers/AllUsers";
 import MyDeliveryList from "../../Pages/DashboardPages/DeliveryManDashboardPages/MyDeliveryList/MyDeliveryList";
+import MyReviews from "../../Pages/DashboardPages/DeliveryManDashboardPages/MyReviews/MyReviews";
 
 
 const router = createBrowserRouter([
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
             {
                 path: "mydeliverylist",
                 element: <MyDeliveryList />
+            },
+            {
+                path: "myreviews",
+                element: <MyReviews />
             },
         ]
     }

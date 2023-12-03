@@ -1,5 +1,5 @@
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { FaBars, FaBox, FaBoxes, FaHome, FaUser, FaRegChartBar, FaLayerGroup, FaUsers, FaList } from "react-icons/fa";
+import { FaBars, FaBox, FaBoxes, FaHome, FaUser, FaRegChartBar, FaLayerGroup, FaUsers, FaList, FaStar } from "react-icons/fa";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { FaPersonBiking } from "react-icons/fa6";
@@ -51,7 +51,6 @@ const Dashboard = () => {
             }
         });
     }
-
 
 
     // admin dashboard links
@@ -128,6 +127,20 @@ const Dashboard = () => {
             to="/dashboard/mydeliverylist">
             <FaList />
             My delivery list
+        </NavLink>
+
+        {/* my reviews */}
+        <NavLink className="font-heading font-medium text-[16px] flex justify-start items-center gap-4 py-2 px-4 rounded-[30px] duration-300"
+            style={({ isActive }) => {
+                return {
+                    backgroundColor: isActive ? "#16CCF5" : "#16CCF500",
+                    color: isActive ? "white" : "black",
+                    transition: isActive ? "all .3s" : ""
+                }
+            }}
+            to="/dashboard/myreviews">
+            <FaStar />
+            My reviews
         </NavLink>
     </>
 
