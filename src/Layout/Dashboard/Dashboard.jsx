@@ -64,7 +64,7 @@ const Dashboard = () => {
                     transition: isActive ? "all .3s" : ""
                 }
             }}
-            to="/dashboard">
+            to="/dashboard/statistics">
             <FaRegChartBar />
             Statistics
         </NavLink>

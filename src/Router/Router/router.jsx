@@ -16,6 +16,7 @@ import AllUsers from "../../Pages/DashboardPages/AdminDashboardPages/AllUsers/Al
 import MyDeliveryList from "../../Pages/DashboardPages/DeliveryManDashboardPages/MyDeliveryList/MyDeliveryList";
 import MyReviews from "../../Pages/DashboardPages/DeliveryManDashboardPages/MyReviews/MyReviews";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import AdminRoute from "../AdminRoute/AdminRoute";
 
 
 const router = createBrowserRouter([
@@ -48,9 +49,9 @@ const router = createBrowserRouter([
         element: <PrivateRoute><Dashboard /></PrivateRoute>,
         children: [
             {
-                path: "",
+                path: "statistics",
                 // index: true,
-                element: <Statistics />
+                element: <AdminRoute><Statistics /></AdminRoute>
             },
             {
                 path: "bookparcel",
@@ -71,15 +72,15 @@ const router = createBrowserRouter([
             },
             {
                 path: "allparcels",
-                element: <AllParcels />
+                element: <AdminRoute><AllParcels /></AdminRoute>
             },
             {
                 path: "alldeliveryman",
-                element: <AllDeliveryMan />
+                element: <AdminRoute><AllDeliveryMan /></AdminRoute>
             },
             {
                 path: "allusers",
-                element: <AllUsers />
+                element: <AdminRoute><AllUsers /></AdminRoute>
             },
             {
                 path: "mydeliverylist",
