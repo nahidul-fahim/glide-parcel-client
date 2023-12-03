@@ -1,6 +1,21 @@
 import CountUp from 'react-countup';
+import useAllParcels from '../../Hooks/useAllParcels/useAllParcels';
+
 
 const Statistics = () => {
+
+    // hooks and custom hooks
+    const { isPending, allparcels } = useAllParcels();
+    
+
+
+    // get all the delivered parcels
+    // const {isPending: deliveredPending, data: allDelivered} = useQuery({
+    //     queryKey: ["allDelivered"],
+    //  queryFn: async () => {
+
+    //  }
+    // })
 
 
     // Background image
@@ -16,15 +31,20 @@ const Statistics = () => {
                 backgroundAttachment: 'fixed'
             }}>
             <div className='flex flex-col md:flex-row justify-between items-center px-5 container mx-auto gap-[80px] md:gap-0'>
+
                 {/* parcels booked */}
                 <div className='flex flex-col justify-center items-center gap-3 w-full md:w-[33%]'>
-                    <CountUp className='text-6xl lg:text-7xl font-bold font-body text-white text-center'
-                        start={0}
-                        end={122}
-                        duration={4}
-                        startOnMount='false'
-                        enableScrollSpy='true'
-                    />
+                    {isPending ?
+                        <span className="loading loading-spinner text-info"></span>
+                        :
+                        <CountUp className='text-6xl lg:text-7xl font-bold font-body text-white text-center'
+                            start={0}
+                            end={allparcels.length}
+                            duration={4}
+                            startOnMount='false'
+                            enableScrollSpy='true'
+                        />
+                    }
                     <h3 className='text-2xl lg:text-4xl font-body font-semibold text-lightgray text-center'>Parcels Booked</h3>
                 </div>
 

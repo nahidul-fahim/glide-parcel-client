@@ -61,7 +61,7 @@ const AllDeliveryMan = () => {
 
                                 {/* total number of completed delivery */}
                                 <td className="font-body font-semibold text-[14px] text-center">
-                                    <h4 className="font-medium font-body text-[14px]"> -- </h4>
+                                    <h4 className="font-medium font-body text-[14px]">{deliveryMan?.totalDelivery || "No delivery"}</h4>
                                 </td>
 
                                 {/* average rating */}

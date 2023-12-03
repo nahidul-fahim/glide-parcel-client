@@ -15,7 +15,7 @@ const Login = () => {
     // Hooks and custom hooks
     const [showPassword, setShowPassword] = useState(false);
     const { logInUser, GoogleSignIn } = useAuthProvider();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const loginRef = useRef(null);
     const axiosOpen = useAxiosOpen();
 
@@ -34,7 +34,8 @@ const Login = () => {
         const password = form.password.value;
 
         // Getting the route from where redirected to the login page
-        // const from = location.state?.from?.pathname || "/";
+        const from = location.state?.from?.pathname || "/";
+        console.log(from);
 
         // const logInInfo = { email, password };
         logInUser(email, password)
@@ -51,8 +52,10 @@ const Login = () => {
                         timer: 1500
                     });
                     loginRef.current.reset();
+                    // navigate(location?.state ? location?.state : "/")
+                    navigate(from, { replace: true });
                 }
-                // navigate(from, { replace: true });
+
             })
             .catch(error => {
 
@@ -67,7 +70,7 @@ const Login = () => {
             })
     }
 
-    
+
     // Handle Google login
     const handleGoogleSignIn = () => {
         GoogleSignIn()

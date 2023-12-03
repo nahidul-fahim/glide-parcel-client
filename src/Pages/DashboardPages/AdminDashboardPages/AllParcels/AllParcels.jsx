@@ -19,10 +19,7 @@ const AllParcels = () => {
 
 
     // conditional loading state
-    if (isPending) {
-        return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="loading gif" /></div>
-    }
-    if (deliveryManPending) {
+    if (isPending || deliveryManPending) {
         return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="loading gif" /></div>
     }
 

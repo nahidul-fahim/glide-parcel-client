@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { IoMenuSharp } from "react-icons/io5";
+import { CiBellOn } from "react-icons/ci";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { useRef } from "react";
@@ -48,6 +49,8 @@ const Header = () => {
             to="/dashboard">
             Dashboard
         </NavLink>
+
+        <CiBellOn className="text-2xl font-sub"/>
     </>
 
 

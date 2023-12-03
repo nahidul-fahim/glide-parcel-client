@@ -43,7 +43,7 @@ const Dashboard = () => {
             if (result.isConfirmed) {
                 logOut()
                     .then(() => {
-                        navigate("/");
+                        navigate("/login");
                     })
                     .catch(error => {
                         console.log(error);
@@ -64,7 +64,7 @@ const Dashboard = () => {
                     transition: isActive ? "all .3s" : ""
                 }
             }}
-            to="/dashboard/statistics">
+            to="/dashboard">
             <FaRegChartBar />
             Statistics
         </NavLink>
@@ -111,6 +111,7 @@ const Dashboard = () => {
             All Users
         </NavLink>
     </>
+
 
 
     // delivery man dashboard links

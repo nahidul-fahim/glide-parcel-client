@@ -15,6 +15,7 @@ import AllDeliveryMan from "../../Pages/DashboardPages/AdminDashboardPages/AllDe
 import AllUsers from "../../Pages/DashboardPages/AdminDashboardPages/AllUsers/AllUsers";
 import MyDeliveryList from "../../Pages/DashboardPages/DeliveryManDashboardPages/MyDeliveryList/MyDeliveryList";
 import MyReviews from "../../Pages/DashboardPages/DeliveryManDashboardPages/MyReviews/MyReviews";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 
 const router = createBrowserRouter([
@@ -44,10 +45,11 @@ const router = createBrowserRouter([
     // dashboard router
     {
         path: "dashboard",
-        element: <Dashboard />,
+        element: <PrivateRoute><Dashboard /></PrivateRoute>,
         children: [
             {
-                path: "statistics",
+                path: "",
+                // index: true,
                 element: <Statistics />
             },
             {
