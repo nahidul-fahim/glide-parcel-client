@@ -3,22 +3,30 @@ import { MdCancel, MdChangeCircle } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Swal from 'sweetalert2';
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure/useAxiosSecure";
+import { useRef, useState } from "react";
+import useCurrentUser from "../../../../Hooks/useCurrentUser/useCurrentUser";
+import { Rating } from '@smastrom/react-rating'
+import '@smastrom/react-rating/style.css'
 
 
 //images + gif
 const loadingGif = "https://i.ibb.co/zmckHyD/loading-Gif.gif";
 
 
-
 const MyParcels = () => {
+
 
     // hooks and custom hooks
     const [isPending, parcels, refetch] = useParcels();
     const axiosSecure = useAxiosSecure();
+    const [deliveryMan, setDeliveryMan] = useState(null);
+    const { isPending: userPending, user } = useCurrentUser();
+    const [ratingByUser, setRatingByUser] = useState(0);
+    const reviewFormRef = useRef(null);
 
 
     // Loading state if no data found
-    if (isPending) {
+    if (isPending || userPending) {
         return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
     }
 
@@ -71,6 +79,66 @@ const MyParcels = () => {
     }
 
 
+    // open modal fuction and set the delivery man
+    const openReviewModal = id => {
+        const deliveredBy = id.split(' ').shift();
+        setDeliveryMan(deliveredBy);
+        const modal = document.getElementById('reviewModal');
+        modal.showModal();
+        return modal;
+    }
+
+
+    // get today's date and validate for min date in the form's date picker
+    const todayDate = new Date().toISOString().split('T')[0];
+
+
+    // getting value from modal and send to the database
+    const handleReview = e => {
+        e.preventDefault();
+        const form = e.target;
+        const reviewer = user?.name;
+        const reviewerImg = user?.photo;
+        const reviewDate = todayDate;
+        const rating = ratingByUser;
+        const feedback = form.feedback.value;
+
+        const reviewInfo = { deliveryMan, reviewer, reviewerImg, reviewDate, rating, feedback };
+
+        console.log(reviewInfo);
+
+
+        // send the review data to databse
+        axiosSecure.post("/review", reviewInfo)
+            .then(res => {
+                if (res.data.insertedId) {
+                    reviewFormRef.current.reset();
+                    setRatingByUser(0);
+                    refetch();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Review done!",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: `Oops! ${error}`,
+                    showConfirmButton: false,
+                    timer: 4000,
+                });
+            })
+
+        // Close the modal after form submission
+        const modal = document.getElementById('reviewModal');
+        modal.close();
+    }
+
 
 
     return (
@@ -84,7 +152,7 @@ const MyParcels = () => {
             </div>
 
 
-            {/* all parcels table */}
+            {/* my all parcels table */}
             <div className="w-full">
                 <div className="overflow-x-auto">
                     <table className="table">
@@ -115,12 +183,12 @@ const MyParcels = () => {
 
                                     {/* parcel type */}
                                     <td>
-                                        <h4 className="font-medium font-body text-[14px] text-center">{parcel.parcelType}</h4>
+                                        <h4 className="font-medium font-body text-[14px] text-center">{parcel?.parcelType}</h4>
                                     </td>
 
                                     {/* requested date */}
                                     <td className="text-center">
-                                        <h4 className="font-medium font-body text-[14px] text-center">{parcel.reqDate}</h4>
+                                        <h4 className="font-medium font-body text-[14px] text-center">{parcel?.reqDate}</h4>
                                     </td>
 
                                     {/* approximate delivery date */}
@@ -130,7 +198,7 @@ const MyParcels = () => {
 
                                     {/* booking date */}
                                     <td className="font-body font-semibold text-[14px] text-center">
-                                        <h4 className="font-medium font-body text-[14px]">{parcel.bookingDate}</h4>
+                                        <h4 className="font-medium font-body text-[14px]">{parcel?.bookingDate}</h4>
                                     </td>
 
                                     {/* delivery man */}
@@ -142,12 +210,12 @@ const MyParcels = () => {
                                     <td className="font-body font-semibold text-[14px] text-center">
                                         <h4
                                             className={`font-semibold capitalize font-body text-[14px]
-                                            ${parcel.bookingStatus === "pending" ? "text-[#ff9100]" : 'text-black'}
-                                            ${parcel.bookingStatus === "cancelled" ? "text-[#ff0000]" : 'text-black'}
-                                            ${parcel.bookingStatus === "delivered" ? "text-[#219e40]" : 'text-black'}
-                                            ${parcel.bookingStatus === "on the way" ? "text-[#008cff]" : 'text-black'}
-                                            ${parcel.bookingStatus === "returned" ? "text-[#8c00ff]" : 'text-black'}`}>
-                                            {parcel.bookingStatus}
+                                            ${parcel?.bookingStatus === "pending" ? "text-[#ff9100]" : 'text-black'}
+                                            ${parcel?.bookingStatus === "cancelled" ? "text-[#ff0000]" : 'text-black'}
+                                            ${parcel?.bookingStatus === "delivered" ? "text-[#219e40]" : 'text-black'}
+                                            ${parcel?.bookingStatus === "on the way" ? "text-[#008cff]" : 'text-black'}
+                                            ${parcel?.bookingStatus === "returned" ? "text-[#8c00ff]" : 'text-black'}`}>
+                                            {parcel?.bookingStatus}
                                         </h4>
                                     </td>
 
@@ -174,7 +242,18 @@ const MyParcels = () => {
 
                                     {/* review */}
                                     <th className="font-body font-medium text-[14px]">
-                                        <button className="bg-main text-white text-[14px] hover:bg-sub duration-300 px-2 py-1 rounded-[20px] font-body">Review</button>
+                                        {
+                                            parcel?.bookingStatus === "completed" ?
+                                                <button onClick={() => openReviewModal(parcel?.deliveryManId)}
+                                                    className="bg-main text-white px-3 py-1 rounded-[40px] hover:bg-third duration-300">
+                                                    Review
+                                                </button>
+                                                :
+                                                <button disabled
+                                                    className="bg-main text-white px-3 py-1 rounded-[40px] opacity-40 cursor-not-allowed">
+                                                    Review
+                                                </button>
+                                        }
                                     </th>
 
                                     {/* payment */}
@@ -185,9 +264,61 @@ const MyParcels = () => {
                             }
                         </tbody>
                     </table>
+
+
+                    {/* modal showing when clicked on the review button */}
+                    <dialog id="reviewModal" className="modal modal-bottom sm:modal-middle w-full">
+                        <div className="modal-box flex flex-col justify-center items-center gap-3 w-full p-5">
+
+                            <h2 className="text-third text-3xl font-heading font-bold">Provide Review</h2>
+
+                            <div className="modal-action flex flex-col justify-center items-center w-full">
+
+                                {/* review form */}
+                                <form onSubmit={handleReview}
+                                    ref={reviewFormRef}
+                                    method="dialog"
+                                    className="flex flex-col justify-center items-center gap-5 w-full p-3">
+
+                                    {/* user's name */}
+                                    <div className="w-full flex flex-col justify-start items-center gap-3">
+                                        <label className="flex justify-start items-start w-full">
+                                            <span className="text-[18px] font-body text-black font-semibold">Your name <span className="text-[red]">*</span> </span>
+                                        </label>
+                                        <input type="text" readOnly name="name" id="name" value={user?.name} className="font-body font-medium w-full px-5 py-2 rounded-[40px] focus:outline-none border-[1px] border-lightgray" />
+                                    </div>
+
+                                    {/* feedback text */}
+                                    <div className="w-full flex flex-col justify-start items-center gap-3">
+                                        <label className="flex justify-start items-start w-full">
+                                            <span className="text-[18px] font-body text-black font-semibold">Your feedback <span className="text-[red]">*</span> </span>
+                                        </label>
+                                        <textarea required name="feedback" id="feedback" placeholder="Provide a feedback about the delivery man" className="font-body font-medium w-full px-5 py-3 rounded-[40px] focus:outline-none border-[1px] border-lightgray focus:border-third" />
+                                    </div>
+
+                                    {/* Rating */}
+                                    <div className="w-full flex flex-col justify-start items-center gap-3">
+                                        <label className="flex justify-start items-start w-full">
+                                            <span className="text-[18px] font-body text-black font-semibold">Rate the delivery man <span className="text-[red]">*</span> </span>
+                                        </label>
+                                        <Rating
+                                            style={{ maxWidth: 200 }}
+                                            value={ratingByUser}
+                                            onChange={setRatingByUser}
+                                            isRequired
+                                        />
+                                    </div>
+
+                                    {/* assign button (form subsmission button) */}
+                                    <div className="w-full flex justify-start items-center mt-1">
+                                        <input type="submit" value="Review" className="w-full text-white bg-main px-5 py-2 rounded-[80px] hover:bg-third duration-500 font-body font-semibold cursor-pointer tracking-[1px]" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </dialog>
                 </div>
             </div>
-
         </div>
     );
 };

@@ -17,10 +17,7 @@ const MyDeliveryList = () => {
 
 
     // conditional loading
-    if (isPending) {
-        return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
-    }
-    if (DelieryListPending) {
+    if (isPending || DelieryListPending) {
         return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
     }
 
