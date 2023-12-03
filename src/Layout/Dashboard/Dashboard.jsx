@@ -21,11 +21,11 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const { loading, logOut } = useAuthProvider();
     const { isPending, user } = useCurrentUser();
-    const [isAdmin] = useIsAdmin();
-    const [isDeliveryMan] = useIsDeliveryMan();
+    const { adminPending, isAdmin } = useIsAdmin();
+    const { deliveryManPending, isDeliveryMan } = useIsDeliveryMan();
 
 
-    if (loading) {
+    if (loading || adminPending || deliveryManPending) {
         return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
     }
 

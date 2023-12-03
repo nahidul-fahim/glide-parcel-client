@@ -9,7 +9,7 @@ const useIsDeliveryMan = () => {
     const { currentUser } = useAuthProvider();
 
 
-    const { data: isDeliveryMan } = useQuery({
+    const { isPending: deliveryManPending, data: isDeliveryMan } = useQuery({
         queryKey: [currentUser?.email, "isDeliveryMan"],
         queryFn: async () => {
             const res = await axiosSecure.get(`/users/deliveryman/${currentUser?.email}`);
@@ -17,7 +17,7 @@ const useIsDeliveryMan = () => {
         }
     })
 
-    return [isDeliveryMan]
+    return { deliveryManPending, isDeliveryMan };
 };
 
 export default useIsDeliveryMan;
