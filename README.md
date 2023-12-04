@@ -1,8 +1,45 @@
-# React + Vite
+[#GLIDE PARCEL](https://glide-parcel.web.app)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+![Website logo](https://i.ibb.co/RbqYPxJ/logo-150-100.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Website features:
+
+
+## Homepage
+* The homepage has 5 sections
+* The couters are coming from the databse
+* The top delivery men are also coming from database and those cards share the actual data of the delivery man
+
+
+## Login and registration
+* Website has login/registration system.
+* User can register only as 'user' or 'delivery man'
+* New user data are set to the database
+
+
+## Dashboard
+* This website has 3 types of dashboard. Admin, delivery man and user dashboard
+
+
+# Admin dashboard
+* In the "statistics" page admin can total booking for a specific day
+* Admin can check all the bookings by all users
+* Admin can assign delivery man and approximate delivery date
+* Admin can see all delivery men registered.
+
+
+# User dashboard
+* From here user can book a parcel.
+* Users can see the parcels they have booked.
+* After a parcel is delivered user can review the delivery man who booked.
+* There is filter system in all parcels page, so that user can filter the data by current booking status.
+* From "My profile" page user can see his history and can change his profile picture.
+
+
+# Delivery man dashboard
+* Delivery man can see all the parcels assigned to him.
+* After a user provides a review to him, he can check those reviews on the "My Reviews" page.
+
+
+## _THANK YOU_

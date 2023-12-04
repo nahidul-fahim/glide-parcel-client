@@ -18,7 +18,7 @@ const Features = () => {
 
 
     return (
-        <div className="container mx-auto p-5 flex flex-col justify-center gap-10 items-center mt-[370px] md:mt-[100px] overflow-hidden">
+        <div className="container mx-auto p-5 flex flex-col justify-center gap-10 items-center mt-[450px] md:mt-[100px] overflow-hidden">
             <SectionTitle
                 firstPart="Our Features"
                 secondPart="Your Advantage"

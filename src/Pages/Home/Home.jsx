@@ -1,7 +1,7 @@
 import DeliveryMan from "./DeliveryMan";
 import Features from "./Features";
 import HeroSection from "./HeroSection";
-import Statistics from "./Statistics";
+import Stats from "./Stats";
 
 
 const Home = () => {
@@ -11,7 +11,7 @@ const Home = () => {
         <div>
             <HeroSection />
             <Features />
-            <Statistics />
+            <Stats />
             <DeliveryMan />
         </div>
     );

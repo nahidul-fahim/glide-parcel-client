@@ -16,6 +16,8 @@ const Statistics = () => {
         }
     })
 
+    
+
 
 
     // Background image
@@ -40,7 +42,7 @@ const Statistics = () => {
                             :
                             <CountUp className='text-6xl lg:text-7xl font-bold font-body text-white text-center'
                                 start={0}
-                                end={stats.totalBookings}
+                                end={stats?.totalBookings}
                                 duration={4}
                                 startOnMount='false'
                                 enableScrollSpy='true'

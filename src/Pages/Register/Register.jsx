@@ -3,7 +3,7 @@ import { AiOutlineUserAdd } from "react-icons/ai";
 import { FaUser, FaUnlockAlt, FaEye, FaEyeSlash, FaEnvelope, FaPhone } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoReturnUpBackOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 import Swal from 'sweetalert2';
 import useAxiosOpen from "../../Hooks/useAxiosOpen/useAxiosOpen";
@@ -28,6 +28,7 @@ const Register = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     //file name to show on display
     const [selectedImage, setSelectedImage] = useState('');
+    const navigate = useNavigate();
 
 
 
@@ -113,6 +114,7 @@ const Register = () => {
                                                         showConfirmButton: false,
                                                         timer: 1500
                                                     });
+                                                    navigate("/");
                                                 }
                                             })
                                             .catch(error => {
