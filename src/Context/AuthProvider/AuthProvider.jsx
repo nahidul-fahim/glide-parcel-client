@@ -56,10 +56,6 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
             setCurrenUser(user);
-            setLoading(false);
-
-
-
             if (user) {
                 // get user mail
                 const userInfo = { email: user.email };
@@ -67,12 +63,14 @@ const AuthProvider = ({ children }) => {
                     .then(res => {
                         if (res.data.token) {
                             localStorage.setItem('access-token', res.data.token);
+                            setLoading(false);
                         }
                     })
             }
             else {
                 // Remove token from local storage if no user found
-                localStorage.removeItem('access-token')
+                localStorage.removeItem('access-token');
+                setLoading(false);
             }
         });
         return () => unsubscribe();

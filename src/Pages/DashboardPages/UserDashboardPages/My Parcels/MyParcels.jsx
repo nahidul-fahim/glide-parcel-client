@@ -105,7 +105,8 @@ const MyParcels = () => {
 
         const reviewInfo = { deliveryMan, reviewer, reviewerImg, reviewDate, rating, feedback };
 
-        console.log(reviewInfo);
+        const newReview = { rating };
+
 
 
         // send the review data to databse
@@ -122,6 +123,8 @@ const MyParcels = () => {
                         showConfirmButton: false,
                         timer: 1500,
                     });
+                    // increase review count for the deliveryman
+                    axiosSecure.put(`/reviewcount/${deliveryMan}`, newReview)
                 }
             })
             .catch(error => {

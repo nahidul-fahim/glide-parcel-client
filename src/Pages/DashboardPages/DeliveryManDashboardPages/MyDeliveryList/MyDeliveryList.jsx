@@ -115,7 +115,7 @@ const MyDeliveryList = () => {
                             <th>Req. del. date</th>
                             <th>Apprx. del. date</th>
                             <th>{'Recv\'s'} phone</th>
-                            <th>{'Recv\'s'} address</th>
+                            {/* <th>{'Recv\'s'} address</th> */}
                             <th>Location</th>
                             <th>Action</th>
                         </tr>
@@ -161,9 +161,9 @@ const MyDeliveryList = () => {
                                 </td>
 
                                 {/* Receiver's address */}
-                                <td className="text-center">
+                                {/* <td className="text-center">
                                     <h4 className="font-medium font-body text-[14px] text-center">{delivery?.delvAddress || "Unavailable"}</h4>
-                                </td>
+                                </td> */}
 
                                 {/* View location button */}
                                 <td className="font-body font-semibold text-[14px]">

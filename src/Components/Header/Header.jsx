@@ -12,7 +12,8 @@ import useCurrentUser from "../../Hooks/useCurrentUser/useCurrentUser";
 const Header = () => {
 
     // hooks and stats
-    const { currentUser, loading, logOut } = useAuthProvider();
+    // const { currentUser, loading, logOut } = useAuthProvider();
+    const { currentUser, logOut } = useAuthProvider();
     const { user } = useCurrentUser();
 
 
@@ -50,7 +51,7 @@ const Header = () => {
             Dashboard
         </NavLink>
 
-        <CiBellOn className="text-2xl font-sub"/>
+        <CiBellOn className="text-2xl font-sub" />
     </>
 
 
@@ -119,7 +120,7 @@ const Header = () => {
                     </div>
 
                     {/* conditional user profile section */}
-                    {
+                    {/* {
                         loading ? <span className="flex justify-center items-center loading loading-infinity text-main loading-md"></span>
                             :
                             currentUser ?
@@ -135,7 +136,38 @@ const Header = () => {
                                 </div>
                                 :
                                 <Link to="/login"><button className="bg-main px-5 py-2 rounded-[20px] font-heading uppercase font-semibold text-white hover:bg-sub duration-500">Login</button></Link>
+                    } */}
+
+
+
+
+                    {
+                        currentUser ?
+                            <div className="dropdown dropdown-end">
+                                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                    <div className="w-10 rounded-full">
+                                        <img alt="" src={user?.photo} />
+                                    </div>
+                                </label>
+                                <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-5 shadow bg-white rounded-box w-52">
+                                    {userLinks}
+                                </ul>
+                            </div>
+                            :
+                            <Link to="/login"><button className="bg-main px-5 py-2 rounded-[20px] font-heading uppercase font-semibold text-white hover:bg-sub duration-500">Login</button></Link>
                     }
+
+
+
+
+
+
+
+
+
+
+
+
                 </div>
 
             </div>

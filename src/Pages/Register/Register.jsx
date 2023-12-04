@@ -78,9 +78,11 @@ const Register = () => {
                     const phone = form.phone.value;
                     const password = form.password.value;
                     const userType = form.userType.value.toLowerCase();
+                    const avgReview = parseFloat(0);
 
 
-                    const userInfo = { name, email, phone, photo, userType };
+
+                    const userInfo = { name, email, phone, photo, userType, avgReview };
 
 
                     // password validation checker

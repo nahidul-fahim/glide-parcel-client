@@ -19,6 +19,7 @@ const AllDeliveryMan = () => {
 
 
 
+
     return (
         <div className="container flex flex-col justify-center items-center gap-10 py-5">
             <h2 className="text-5xl font-heading text-third font-bold">All <span className="text-main">Delivery Man</span></h2>
@@ -66,7 +67,7 @@ const AllDeliveryMan = () => {
 
                                 {/* average rating */}
                                 <td className="font-body font-semibold text-[14px] text-center">
-                                    <h4 className="font-medium font-body text-[14px]"> -- </h4>
+                                    <h4 className="font-medium font-body text-[14px]">{deliveryMan?.avgReview || "No review yet"}</h4>
                                 </td>
 
                             </tr>)

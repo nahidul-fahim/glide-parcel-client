@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import useCurrentUser from "../../Hooks/useCurrentUser/useCurrentUser";
 import useIsAdmin from "../../Hooks/useIsAdmin/useIsAdmin";
 import useIsDeliveryMan from "../../Hooks/useIsDeliveryMan/useIsDeliveryMan";
+import { useEffect } from "react";
 
 
 
@@ -25,9 +26,29 @@ const Dashboard = () => {
     const { deliveryManPending, isDeliveryMan } = useIsDeliveryMan();
 
 
-    if (loading || adminPending || deliveryManPending) {
-        return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
-    }
+    useEffect(() => {
+        const adminRedireact = () => {
+            if (isAdmin) {
+                navigate("/dashboard/statistics")
+            }
+        }
+
+        const deliveryManRedirect = () => {
+            if (isDeliveryMan) {
+                navigate("/dashboard/mydeliverylist")
+            }
+        }
+
+        if (!adminPending || !deliveryManPending) {
+            adminRedireact();
+            deliveryManRedirect();
+        }
+
+    }, [isAdmin, navigate, adminPending, deliveryManPending, isDeliveryMan])
+
+
+
+
 
 
     // Logout user
@@ -190,6 +211,12 @@ const Dashboard = () => {
         </NavLink>
 
     </>
+
+
+
+    if (loading || adminPending || deliveryManPending) {
+        return <div className="h-[100vh] flex justify-center items-center"><img src={loadingGif} alt="" /></div>
+    }
 
 
 

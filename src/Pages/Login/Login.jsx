@@ -3,7 +3,7 @@ import { AiOutlineLogin } from "react-icons/ai";
 import { FaUser, FaUnlockAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuthProvider from "../../Hooks/useAuthProvider/useAuthProvider";
 import Swal from 'sweetalert2';
 import useAxiosOpen from "../../Hooks/useAxiosOpen/useAxiosOpen";
@@ -18,6 +18,7 @@ const Login = () => {
     const navigate = useNavigate();
     const loginRef = useRef(null);
     const axiosOpen = useAxiosOpen();
+    const location = useLocation();
 
 
 
@@ -33,8 +34,11 @@ const Login = () => {
         const email = form.email.value;
         const password = form.password.value;
 
+
+
         // Getting the route from where redirected to the login page
         const from = location.state?.from?.pathname || "/";
+
         console.log(from);
 
         // const logInInfo = { email, password };
