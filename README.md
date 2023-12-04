@@ -1,4 +1,5 @@
-[#GLIDE PARCEL](https://glide-parcel.web.app)
+# GLIDE PARCEL
+### https://glide-parcel.web.app
 
 
 ![Website logo](https://i.ibb.co/RbqYPxJ/logo-150-100.png)
