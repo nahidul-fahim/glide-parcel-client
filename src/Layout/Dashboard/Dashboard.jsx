@@ -26,6 +26,8 @@ const Dashboard = () => {
     const { deliveryManPending, isDeliveryMan } = useIsDeliveryMan();
 
 
+
+    // redirect the admin and delivery man to a specific route
     useEffect(() => {
         const adminRedireact = () => {
             if (isAdmin) {

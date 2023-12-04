@@ -16,12 +16,17 @@ const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${imageHostngApiKey}`
 
 const MyProfile = () => {
 
+    const filteredBookingStatus = "all";
+
     // hooks and custom hooks
     const { isPending: userPending, user, refetch } = useCurrentUser();
     const animate = useRef();
     const isInView = useInView(animate);
-    const [isPending, parcels] = useParcels();
+    const [isPending, parcels] = useParcels(filteredBookingStatus);
     const axiosSecure = useAxiosSecure();
+
+
+
 
 
     if (userPending) {

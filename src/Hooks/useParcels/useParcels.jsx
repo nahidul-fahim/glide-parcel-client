@@ -3,16 +3,16 @@ import useAuthProvider from "../useAuthProvider/useAuthProvider";
 import useAxiosSecure from "../useAxiosSecure/useAxiosSecure";
 
 
-const useParcels = () => {
+const useParcels = (filteredBookingStatus) => {
 
     const axiosSecure = useAxiosSecure();
     const { currentUser } = useAuthProvider();
 
 
     const { isPending, data: parcels = [], refetch } = useQuery({
-        queryKey: ["parcels", currentUser?.email],
+        queryKey: ["parcels", currentUser?.email, filteredBookingStatus],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/booking?email=${currentUser?.email}`)
+            const res = await axiosSecure.get(`/booking?email=${currentUser?.email}&bookingStatus=${filteredBookingStatus}`)
             return res.data;
         }
     })

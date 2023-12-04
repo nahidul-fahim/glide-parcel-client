@@ -17,10 +17,11 @@ const MyParcels = () => {
 
 
     // hooks and custom hooks
-    const [isPending, parcels, refetch] = useParcels();
+    const [filteredBookingStatus, setFilteredBookingStatus] = useState("all");
+    const { isPending: userPending, user } = useCurrentUser();
+    const [isPending, parcels, refetch] = useParcels(filteredBookingStatus);
     const axiosSecure = useAxiosSecure();
     const [deliveryMan, setDeliveryMan] = useState(null);
-    const { isPending: userPending, user } = useCurrentUser();
     const [ratingByUser, setRatingByUser] = useState(0);
     const reviewFormRef = useRef(null);
 
@@ -144,6 +145,21 @@ const MyParcels = () => {
 
 
 
+    // hanbdle booking status filter
+    const handleBookingStatus = e => {
+        e.preventDefault();
+        const statusType = e.target.statusType.value.toLowerCase();
+        setFilteredBookingStatus(statusType);
+    }
+
+    console.log(parcels);
+
+    if (parcels.length === 0) {
+        console.log("emply")
+    }
+
+
+
     return (
         <div className="container flex flex-col justify-center items-center gap-10 py-5">
             <h2 className="text-5xl font-heading text-third font-bold">My <span className="text-main">Parcels</span></h2>
@@ -155,173 +171,201 @@ const MyParcels = () => {
             </div>
 
 
-            {/* my all parcels table */}
-            <div className="w-full">
-                <div className="overflow-x-auto">
-                    <table className="table">
-                        {/* head */}
-                        <thead>
-                            <tr className="font-body text-white text-center text-[14px] bg-third">
-                                <th>#</th>
-                                <th>Parcel type</th>
-                                <th>Req. delivery date</th>
-                                <th>Apprx. del. date</th>
-                                <th>Booking date</th>
-                                <th>Delivery man</th>
-                                <th>Booking status</th>
-                                <th>Manage booking</th>
-                                <th>Review</th>
-                                <th>Payment</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+            {/* filter system */}
+            <div className="w-full flex justify-start items-center">
+                <form onSubmit={handleBookingStatus}
+                    className="flex justify-center items-center gap-3">
+                    <select name="statusType" id="statusType" defaultValue={filteredBookingStatus}
+                        className="select w-full max-w-xs font-body text-darkgray rounded-[70px]">
+                        <option disabled>Select booking status</option>
+                        <option>All</option>
+                        <option>Pending</option>
+                        <option>Completed</option>
+                        <option>On the way</option>
+                        <option>Cancelled</option>
+                    </select>
 
-                            {
-                                parcels.map((parcel, index) => <tr key={parcel._id}>
-
-                                    {/* serial number */}
-                                    <th>
-                                        {index + 1}
-                                    </th>
-
-                                    {/* parcel type */}
-                                    <td>
-                                        <h4 className="font-medium font-body text-[14px] text-center">{parcel?.parcelType}</h4>
-                                    </td>
-
-                                    {/* requested date */}
-                                    <td className="text-center">
-                                        <h4 className="font-medium font-body text-[14px] text-center">{parcel?.reqDate}</h4>
-                                    </td>
-
-                                    {/* approximate delivery date */}
-                                    <td className="font-body font-semibold text-[14px] text-center">
-                                        <h4 className="font-medium font-body text-[14px]">{parcel?.apprxDelvDate || "Pending"}</h4>
-                                    </td>
-
-                                    {/* booking date */}
-                                    <td className="font-body font-semibold text-[14px] text-center">
-                                        <h4 className="font-medium font-body text-[14px]">{parcel?.bookingDate}</h4>
-                                    </td>
-
-                                    {/* delivery man */}
-                                    <td className="font-body font-semibold text-[14px] text-center">
-                                        <h4 className="font-medium font-body text-[14px]">{parcel?.deliveryManId.split(" ").splice(1).join(" ") || "Pending"}</h4>
-                                    </td>
-
-                                    {/* booking status */}
-                                    <td className="font-body font-semibold text-[14px] text-center">
-                                        <h4
-                                            className={`font-semibold capitalize font-body text-[14px]
-                                            ${parcel?.bookingStatus === "pending" ? "text-[#ff9100]" : 'text-black'}
-                                            ${parcel?.bookingStatus === "cancelled" ? "text-[#ff0000]" : 'text-black'}
-                                            ${parcel?.bookingStatus === "delivered" ? "text-[#219e40]" : 'text-black'}
-                                            ${parcel?.bookingStatus === "on the way" ? "text-[#008cff]" : 'text-black'}
-                                            ${parcel?.bookingStatus === "returned" ? "text-[#8c00ff]" : 'text-black'}`}>
-                                            {parcel?.bookingStatus}
-                                        </h4>
-                                    </td>
-
-                                    {/* manage booking */}
-                                    <td className="font-body font-semibold text-[14px] flex justify-center items-center gap-3">
-
-                                        {/* update button */}
-                                        <Link to={`updatebooking/${parcel._id}`}>
-                                            <button
-                                                disabled={parcel.bookingStatus !== "pending"}
-                                                className={`${parcel.bookingStatus !== "pending" ? 'cursor-not-allowed opacity-40' : ''}`}>
-                                                <MdChangeCircle className="text-3xl rounded-full text-[#0084ff]" />
-                                            </button>
-                                        </Link>
-
-                                        {/* cancel button */}
-                                        <button onClick={() => handleCancel(parcel._id)}
-                                            disabled={parcel.bookingStatus !== "pending"}
-                                            className={`${parcel.bookingStatus !== "pending" ? 'cursor-not-allowed opacity-40' : ''}`}
-                                        >
-                                            <MdCancel className="text-3xl mt-[-5px] rounded-full text-[red]" />
-                                        </button>
-                                    </td>
-
-                                    {/* review */}
-                                    <th className="font-body font-medium text-[14px]">
-                                        {
-                                            parcel?.bookingStatus === "completed" ?
-                                                <button onClick={() => openReviewModal(parcel?.deliveryManId)}
-                                                    className="bg-main text-white px-3 py-1 rounded-[40px] hover:bg-third duration-300">
-                                                    Review
-                                                </button>
-                                                :
-                                                <button disabled
-                                                    className="bg-main text-white px-3 py-1 rounded-[40px] opacity-40 cursor-not-allowed">
-                                                    Review
-                                                </button>
-                                        }
-                                    </th>
-
-                                    {/* payment */}
-                                    <th className="font-body font-medium text-[14px]">
-                                        <button className="bg-[#a51b1b] text-white text-[14px] hover:bg-main duration-300 px-2 py-1 rounded-[20px] font-body">Payment</button>
-                                    </th>
-                                </tr>)
-                            }
-                        </tbody>
-                    </table>
-
-
-                    {/* modal showing when clicked on the review button */}
-                    <dialog id="reviewModal" className="modal modal-bottom sm:modal-middle w-full">
-                        <div className="modal-box flex flex-col justify-center items-center gap-3 w-full p-5">
-
-                            <h2 className="text-third text-3xl font-heading font-bold">Provide Review</h2>
-
-                            <div className="modal-action flex flex-col justify-center items-center w-full">
-
-                                {/* review form */}
-                                <form onSubmit={handleReview}
-                                    ref={reviewFormRef}
-                                    method="dialog"
-                                    className="flex flex-col justify-center items-center gap-5 w-full p-3">
-
-                                    {/* user's name */}
-                                    <div className="w-full flex flex-col justify-start items-center gap-3">
-                                        <label className="flex justify-start items-start w-full">
-                                            <span className="text-[18px] font-body text-black font-semibold">Your name <span className="text-[red]">*</span> </span>
-                                        </label>
-                                        <input type="text" readOnly name="name" id="name" value={user?.name} className="font-body font-medium w-full px-5 py-2 rounded-[40px] focus:outline-none border-[1px] border-lightgray" />
-                                    </div>
-
-                                    {/* feedback text */}
-                                    <div className="w-full flex flex-col justify-start items-center gap-3">
-                                        <label className="flex justify-start items-start w-full">
-                                            <span className="text-[18px] font-body text-black font-semibold">Your feedback <span className="text-[red]">*</span> </span>
-                                        </label>
-                                        <textarea required name="feedback" id="feedback" placeholder="Provide a feedback about the delivery man" className="font-body font-medium w-full px-5 py-3 rounded-[40px] focus:outline-none border-[1px] border-lightgray focus:border-third" />
-                                    </div>
-
-                                    {/* Rating */}
-                                    <div className="w-full flex flex-col justify-start items-center gap-3">
-                                        <label className="flex justify-start items-start w-full">
-                                            <span className="text-[18px] font-body text-black font-semibold">Rate the delivery man <span className="text-[red]">*</span> </span>
-                                        </label>
-                                        <Rating
-                                            style={{ maxWidth: 200 }}
-                                            value={ratingByUser}
-                                            onChange={setRatingByUser}
-                                            isRequired
-                                        />
-                                    </div>
-
-                                    {/* assign button (form subsmission button) */}
-                                    <div className="w-full flex justify-start items-center mt-1">
-                                        <input type="submit" value="Review" className="w-full text-white bg-main px-5 py-2 rounded-[80px] hover:bg-third duration-500 font-body font-semibold cursor-pointer tracking-[1px]" />
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </dialog>
-                </div>
+                    <input type="submit" value="Filter" className="bg-sub text-white px-4 py-1 rounded-[40px] font-medium font-body cursor-pointer" />
+                </form>
             </div>
+
+
+
+
+            {/* my all parcels table */}
+            {
+                parcels.length === 0 ?
+                    <div className="flex justify-center items-center text-center font-body">
+                        <p className="text-2xl text-darkgray mt-10 font-bold">Oops! No data found.</p>
+                    </div>
+                    :
+                    <div className="w-full">
+                        <div className="overflow-x-auto">
+                            <table className="table">
+                                {/* head */}
+                                <thead>
+                                    <tr className="font-body text-white text-center text-[14px] bg-third">
+                                        <th>#</th>
+                                        <th>Parcel type</th>
+                                        <th>Req. delivery date</th>
+                                        <th>Apprx. del. date</th>
+                                        <th>Booking date</th>
+                                        <th>Delivery man</th>
+                                        <th>Booking status</th>
+                                        <th>Manage booking</th>
+                                        <th>Review</th>
+                                        <th>Payment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {
+                                        parcels.map((parcel, index) => <tr key={parcel._id}>
+
+                                            {/* serial number */}
+                                            <th>
+                                                {index + 1}
+                                            </th>
+
+                                            {/* parcel type */}
+                                            <td>
+                                                <h4 className="font-medium font-body text-[14px] text-center">{parcel?.parcelType}</h4>
+                                            </td>
+
+                                            {/* requested date */}
+                                            <td className="text-center">
+                                                <h4 className="font-medium font-body text-[14px] text-center">{parcel?.reqDate}</h4>
+                                            </td>
+
+                                            {/* approximate delivery date */}
+                                            <td className="font-body font-semibold text-[14px] text-center">
+                                                <h4 className="font-medium font-body text-[14px]">{parcel?.apprxDelvDate || "Pending"}</h4>
+                                            </td>
+
+                                            {/* booking date */}
+                                            <td className="font-body font-semibold text-[14px] text-center">
+                                                <h4 className="font-medium font-body text-[14px]">{parcel?.bookingDate}</h4>
+                                            </td>
+
+                                            {/* delivery man */}
+                                            <td className="font-body font-semibold text-[14px] text-center">
+                                                <h4 className="font-medium font-body text-[14px]">{parcel?.deliveryManId.split(" ").splice(1).join(" ") || "Pending"}</h4>
+                                            </td>
+
+                                            {/* booking status */}
+                                            <td className="font-body font-semibold text-[14px] text-center">
+                                                <h4
+                                                    className={`font-semibold capitalize font-body text-[14px]
+                                        ${parcel?.bookingStatus === "pending" ? "text-[#ffa632]" : 'text-black'}
+                                        ${parcel?.bookingStatus === "cancelled" ? "text-[#c52828]" : 'text-black'}
+                                        ${parcel?.bookingStatus === "completed" ? "text-[#1d973c]" : 'text-black'}
+                                        ${parcel?.bookingStatus === "on the way" ? "text-[#2187db]" : 'text-black'}
+                                        ${parcel?.bookingStatus === "returned" ? "text-[#892bd6]" : 'text-black'}`}>
+                                                    {parcel?.bookingStatus}
+                                                </h4>
+                                            </td>
+
+                                            {/* manage booking */}
+                                            <td className="font-body font-semibold text-[14px] flex justify-center items-center gap-3">
+
+                                                {/* update button */}
+                                                <Link to={`updatebooking/${parcel._id}`}>
+                                                    <button
+                                                        disabled={parcel.bookingStatus !== "pending"}
+                                                        className={`${parcel.bookingStatus !== "pending" ? 'cursor-not-allowed opacity-40' : ''}`}>
+                                                        <MdChangeCircle className="text-3xl rounded-full text-[#0084ff]" />
+                                                    </button>
+                                                </Link>
+
+                                                {/* cancel button */}
+                                                <button onClick={() => handleCancel(parcel._id)}
+                                                    disabled={parcel.bookingStatus !== "pending"}
+                                                    className={`${parcel.bookingStatus !== "pending" ? 'cursor-not-allowed opacity-40' : ''}`}
+                                                >
+                                                    <MdCancel className="text-3xl mt-[-5px] rounded-full text-[red]" />
+                                                </button>
+                                            </td>
+
+                                            {/* review */}
+                                            <th className="font-body font-medium text-[14px]">
+                                                {
+                                                    parcel?.bookingStatus === "completed" ?
+                                                        <button onClick={() => openReviewModal(parcel?.deliveryManId)}
+                                                            className="bg-main text-white px-3 py-1 rounded-[40px] hover:bg-third duration-300">
+                                                            Review
+                                                        </button>
+                                                        :
+                                                        <button disabled
+                                                            className="bg-main text-white px-3 py-1 rounded-[40px] opacity-40 cursor-not-allowed">
+                                                            Review
+                                                        </button>
+                                                }
+                                            </th>
+
+                                            {/* payment */}
+                                            <th className="font-body font-medium text-[14px]">
+                                                <button className="bg-[#a51b1b] text-white text-[14px] hover:bg-main duration-300 px-2 py-1 rounded-[20px] font-body">Payment</button>
+                                            </th>
+                                        </tr>)
+                                    }
+                                </tbody>
+                            </table>
+
+
+                            {/* modal showing when clicked on the review button */}
+                            <dialog id="reviewModal" className="modal modal-bottom sm:modal-middle w-full">
+                                <div className="modal-box flex flex-col justify-center items-center gap-3 w-full p-5">
+
+                                    <h2 className="text-third text-3xl font-heading font-bold">Provide Review</h2>
+
+                                    <div className="modal-action flex flex-col justify-center items-center w-full">
+
+                                        {/* review form */}
+                                        <form onSubmit={handleReview}
+                                            ref={reviewFormRef}
+                                            method="dialog"
+                                            className="flex flex-col justify-center items-center gap-5 w-full p-3">
+
+                                            {/* user's name */}
+                                            <div className="w-full flex flex-col justify-start items-center gap-3">
+                                                <label className="flex justify-start items-start w-full">
+                                                    <span className="text-[18px] font-body text-black font-semibold">Your name <span className="text-[red]">*</span> </span>
+                                                </label>
+                                                <input type="text" readOnly name="name" id="name" value={user?.name} className="font-body font-medium w-full px-5 py-2 rounded-[40px] focus:outline-none border-[1px] border-lightgray" />
+                                            </div>
+
+                                            {/* feedback text */}
+                                            <div className="w-full flex flex-col justify-start items-center gap-3">
+                                                <label className="flex justify-start items-start w-full">
+                                                    <span className="text-[18px] font-body text-black font-semibold">Your feedback <span className="text-[red]">*</span> </span>
+                                                </label>
+                                                <textarea required name="feedback" id="feedback" placeholder="Provide a feedback about the delivery man" className="font-body font-medium w-full px-5 py-3 rounded-[40px] focus:outline-none border-[1px] border-lightgray focus:border-third" />
+                                            </div>
+
+                                            {/* Rating */}
+                                            <div className="w-full flex flex-col justify-start items-center gap-3">
+                                                <label className="flex justify-start items-start w-full">
+                                                    <span className="text-[18px] font-body text-black font-semibold">Rate the delivery man <span className="text-[red]">*</span> </span>
+                                                </label>
+                                                <Rating
+                                                    style={{ maxWidth: 200 }}
+                                                    value={ratingByUser}
+                                                    onChange={setRatingByUser}
+                                                    isRequired
+                                                />
+                                            </div>
+
+                                            {/* assign button (form subsmission button) */}
+                                            <div className="w-full flex justify-start items-center mt-1">
+                                                <input type="submit" value="Review" className="w-full text-white bg-main px-5 py-2 rounded-[80px] hover:bg-third duration-500 font-body font-semibold cursor-pointer tracking-[1px]" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </dialog>
+                        </div>
+                    </div>
+            }
         </div>
     );
 };
