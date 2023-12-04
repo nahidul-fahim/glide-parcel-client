@@ -64,7 +64,7 @@ const router = createBrowserRouter([
             {
                 path: "myparcels/updatebooking/:id",
                 element: <UpdaateBooking />,
-                loader: ({ params }) => fetch(`http://localhost:5000/booking/${params.id}`),
+                loader: ({ params }) => fetch(`https://glide-parcel-server.vercel.app/booking/${params.id}`),
             },
             {
                 path: "myprofile",

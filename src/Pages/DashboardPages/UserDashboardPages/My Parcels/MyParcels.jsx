@@ -249,7 +249,11 @@ const MyParcels = () => {
 
                                             {/* delivery man */}
                                             <td className="font-body font-semibold text-[14px] text-center">
-                                                <h4 className="font-medium font-body text-[14px]">{parcel?.deliveryManId.split(" ").splice(1).join(" ") || "Pending"}</h4>
+                                                {
+                                                    parcel?.deliveryManId ? <h4 className="font-medium font-body text-[14px]">{parcel?.deliveryManId.split(" ").splice(1).join(" ") || "Pending"}</h4>
+                                                        : 
+                                                        <p className="font-medium font-body text-[14px] text-[#919191]">Not assigned yet</p>
+                                                }
                                             </td>
 
                                             {/* booking status */}
