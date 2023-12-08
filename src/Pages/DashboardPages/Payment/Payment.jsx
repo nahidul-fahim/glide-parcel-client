@@ -1,10 +1,11 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import CheckOutForm from "./CheckOutForm";
 
 
 
 // TODO: Add a publishable key here
-const stripePromise = loadStripe("")
+const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_SECRET_KEY)
 
 const Payment = () => {
     return (
@@ -13,9 +14,11 @@ const Payment = () => {
 
 
             {/* TODO: A checkout form */}
-            <Elements stripe={stripePromise}>
-                
-            </Elements>
+            <div className="w-2/3">
+                <Elements stripe={stripePromise}>
+                    <CheckOutForm />
+                </Elements>
+            </div>
 
         </div>
     );
