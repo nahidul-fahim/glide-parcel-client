@@ -17,6 +17,7 @@ import MyDeliveryList from "../../Pages/DashboardPages/DeliveryManDashboardPages
 import MyReviews from "../../Pages/DashboardPages/DeliveryManDashboardPages/MyReviews/MyReviews";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import AdminRoute from "../AdminRoute/AdminRoute";
+import Payment from "../../Pages/DashboardPages/Payment/Payment";
 
 
 const router = createBrowserRouter([
@@ -64,7 +65,7 @@ const router = createBrowserRouter([
             {
                 path: "myparcels/updatebooking/:id",
                 element: <UpdaateBooking />,
-                loader: ({ params }) => fetch(`https://glide-parcel-server.vercel.app/booking/${params.id}`),
+                loader: ({ params }) => fetch(`http://localhost:5000/booking/${params.id}`),
             },
             {
                 path: "myprofile",
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
                 path: "myreviews",
                 element: <MyReviews />
             },
+            {
+                path: "payment",
+                element: <Payment />
+            }
         ]
     }
 ])

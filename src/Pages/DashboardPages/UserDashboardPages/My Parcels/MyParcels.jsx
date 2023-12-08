@@ -251,7 +251,7 @@ const MyParcels = () => {
                                             <td className="font-body font-semibold text-[14px] text-center">
                                                 {
                                                     parcel?.deliveryManId ? <h4 className="font-medium font-body text-[14px]">{parcel?.deliveryManId.split(" ").splice(1).join(" ") || "Pending"}</h4>
-                                                        : 
+                                                        :
                                                         <p className="font-medium font-body text-[14px] text-[#919191]">Not assigned yet</p>
                                                 }
                                             </td>
@@ -308,7 +308,8 @@ const MyParcels = () => {
 
                                             {/* payment */}
                                             <th className="font-body font-medium text-[14px]">
-                                                <button className="bg-[#a51b1b] text-white text-[14px] hover:bg-main duration-300 px-2 py-1 rounded-[20px] font-body">Payment</button>
+                                                <Link to="/dashboard/payment">                                                <button className="bg-[#a51b1b] text-white text-[14px] hover:bg-main duration-300 px-2 py-1 rounded-[20px] font-body">Payment</button>
+                                                </Link>
                                             </th>
                                         </tr>)
                                     }
