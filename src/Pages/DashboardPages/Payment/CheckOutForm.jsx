@@ -1,4 +1,5 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { useState } from "react";
 
 
 const CheckOutForm = () => {
@@ -7,9 +8,12 @@ const CheckOutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
 
+    // react hooks and custom hooks
+    const [error, setError] = useState('');
 
-    // checkout form submission
-    const handleCheckOutForm = event => {
+
+    // handle checkout form submission
+    const handleCheckOutForm = async (event) => {
         event.preventDefault();
 
 
@@ -25,6 +29,20 @@ const CheckOutForm = () => {
         if (!card) {
             return;
         }
+
+        // make the payment
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+            type: 'card',
+            card,
+        });
+
+        if (error) {
+            setError(error.message);
+        }
+        else {
+            console.log("Payment successful:", paymentMethod)
+            setError('');
+        }
     }
 
 
@@ -34,7 +52,7 @@ const CheckOutForm = () => {
 
             {/* checkout form */}
             <form onSubmit={handleCheckOutForm}
-              className="w-full space-y-5">
+                className="w-full space-y-5">
                 <CardElement className="font-body border-[1px] border-lightgray px-5 py-3 rounded-[40px]"
                     options={{
                         style: {
@@ -54,6 +72,12 @@ const CheckOutForm = () => {
                 <button className="bg-main text-white font-body px-4 py-2 rounded-[40px] font-semibold hover:bg-third duration-300 w-full" type="submit" disabled={!stripe}>
                     Make the payment
                 </button>
+                {
+                    error ?
+                        <p className="font-body font-medium text-[#b61b1b] text-[15px] text-left">{error}</p>
+                        :
+                        ''
+                }
             </form>
 
         </div>
