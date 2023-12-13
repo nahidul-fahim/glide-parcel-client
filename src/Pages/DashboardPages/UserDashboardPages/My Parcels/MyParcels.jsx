@@ -126,6 +126,7 @@ const MyParcels = () => {
                     });
                     // increase review count for the deliveryman
                     axiosSecure.put(`/reviewcount/${deliveryMan}`, newReview)
+                    
                 }
             })
             .catch(error => {

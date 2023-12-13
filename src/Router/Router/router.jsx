@@ -18,6 +18,7 @@ import MyReviews from "../../Pages/DashboardPages/DeliveryManDashboardPages/MyRe
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import AdminRoute from "../AdminRoute/AdminRoute";
 import Payment from "../../Pages/DashboardPages/Payment/Payment";
+import Community from "../../Pages/DashboardPages/DeliveryManDashboardPages/Community/Community";
 
 
 const router = createBrowserRouter([
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
             {
                 path: "myreviews",
                 element: <MyReviews />
+            },
+            {
+                path: "community",
+                element: <Community />
             },
             {
                 path: "payment",

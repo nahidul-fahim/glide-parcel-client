@@ -3,9 +3,6 @@ import '@smastrom/react-rating/style.css'
 
 const SingleReview = ({ review }) => {
 
-
-    console.log(review);
-
     return (
         <div className="p-10 flex flex-col justify-center items-center gap-5 relative shadow-[0_0_150px_-10px_#B8B8B847] hover:shadow-[#0057FF21] duration-300 rounded-md">
             <img src={review?.reviewerImg} alt="reviewer image" className="w-[200px] h-[200px] rounded-full" />
