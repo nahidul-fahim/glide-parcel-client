@@ -31,8 +31,6 @@ const Community = () => {
 
 
 
-
-
     return (
         <div className="container flex flex-col justify-center items-center gap-10 py-5">
 
@@ -42,9 +40,10 @@ const Community = () => {
                 {
                     allReviews.map(review =>
                         <div key={review?._id}
-                            className="bg-lightmain w-full md:w-[90%] mb-8 px-5 py-4 rounded text-black flex flex-col justify-center items-start font-body">
-                            <p className="text-darkgray mb-2">{review?.reviewDate}</p>
+                            className="bg-lightmain w-full md:w-[90%] mb-8 px-5 py-4 rounded text-black flex flex-col justify-center items-start gap-5 font-body">
+                            <p className="text-darkgray">{review?.reviewDate}</p>
                             <p><span className="font-medium">{review?.deliveryMan}</span> got a new <span className="font-semibold">{review?.rating}⭐</span> rating. <span className="font-semibold">Congratulations! 🎉</span></p>
+                            <p className="font-body text-darkgray"> <span className="font-medium text-black">{'Uesr\'s'} feedback:</span> {review?.feedback}</p>
                         </div>)
                 }
             </div>

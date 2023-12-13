@@ -26,17 +26,19 @@ const HeroSection = () => {
         setValidIdMessage('')
 
         if (!isValidObjectId) {
-            return setValidIdMessage("Please provide a valid ID")
+            return setValidIdMessage("Please provide a valid ID");
         }
 
         axiosOpen.get(`/homeparceltracking?id=${trackingId}`)
             .then(res => {
                 setTrackingStatus(res.data.trackingResult.bookingStatus);
+                openReviewModal();
                 trackingForm.current.reset();
             })
             .catch(err => {
                 if (err) {
-                    setTrackingStatus(err?.response?.data?.error)
+                    openReviewModal();
+                    setTrackingStatus(err?.message)
                 }
             })
     }
@@ -90,10 +92,8 @@ const HeroSection = () => {
                             }
                         </div>
                         <input type="submit"
-                        value="Track Parcel"
-                        onClick={openReviewModal}
-                        className="absolute top-1 right-1 bg-third font-heading text-white px-4 py-2 rounded-[20px] hover:bg-sub duration-500" />
-                        {/* <button className="absolute top-1 right-1 bg-third font-heading text-white px-4 py-2 rounded-[20px] hover:bg-sub duration-500">Track Parcel</button> */}
+                            value="Track Parcel"
+                            className="absolute top-1 right-1 bg-third font-heading text-white px-4 py-2 rounded-[20px] hover:bg-sub duration-500" />
                     </form>
                 </div>
             </div>
