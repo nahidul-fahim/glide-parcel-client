@@ -1,13 +1,51 @@
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import useAxiosOpen from "../../Hooks/useAxiosOpen/useAxiosOpen";
 
 
 const HeroSection = () => {
 
-
     // Framer motionw
     const animate = useRef(null);
     const isInView = useInView(animate);
+
+    // hooks and custom hooks
+    const axiosOpen = useAxiosOpen();
+    const [trackingStatus, setTrackingStatus] = useState('');
+    const [validIdMessage, setValidIdMessage] = useState('');
+    const trackingForm = useRef(null);
+
+
+    // tracking the parcel
+    const handleParcelTrack = e => {
+        e.preventDefault();
+
+        const trackingId = e.target.trackingId.value;
+        const isValidObjectId = /^[0-9a-fA-F]{24}$/.test(trackingId);
+
+        setValidIdMessage('')
+
+        if (!isValidObjectId) {
+            return setValidIdMessage("Please provide a valid ID")
+        }
+
+        axiosOpen.get(`/homeparceltracking?id=${trackingId}`)
+            .then(res => {
+                setTrackingStatus(res.data.trackingResult.bookingStatus);
+                trackingForm.current.reset();
+            })
+            .catch(err => {
+                if (err) {
+                    setTrackingStatus(err?.response?.data?.error)
+                }
+            })
+    }
+
+    // open modal to show tracking result
+    const openReviewModal = () => {
+        const modal = document.getElementById('trackingModal');
+        modal.showModal();
+    }
 
 
 
@@ -41,8 +79,22 @@ const HeroSection = () => {
                 <p className="font-body font-semibold text-base text-white">Track Your Parcel!</p>
 
                 <div className="relative flex flex-col justify-center items-center w-full lg:w-[70%]">
-                    <input type="text" name="trackingId" placeholder="Your tracking ID" id="trackingId" className="w-full focus:outline-none px-[20px] py-3 rounded-[40px]" />
-                    <button className="absolute top-1 right-1 bg-third font-heading text-white px-4 py-2 rounded-[20px] hover:bg-sub duration-500">Track Parcel</button>
+                    {/* parcel tracking form */}
+                    <form onSubmit={handleParcelTrack}
+                        ref={trackingForm}
+                        className="w-full">
+                        <div className="w-full flex flex-col justify-start items-start gap-2">
+                            <input required type="text" name="trackingId" placeholder="Your tracking ID" id="trackingId" className="w-full focus:outline-none px-[20px] py-3 rounded-[40px]" />
+                            {
+                                validIdMessage ? <p className="text-[#852121] text-[14px] font-semibold font-body w-[80%]">{validIdMessage}</p> : ''
+                            }
+                        </div>
+                        <input type="submit"
+                        value="Track Parcel"
+                        onClick={openReviewModal}
+                        className="absolute top-1 right-1 bg-third font-heading text-white px-4 py-2 rounded-[20px] hover:bg-sub duration-500" />
+                        {/* <button className="absolute top-1 right-1 bg-third font-heading text-white px-4 py-2 rounded-[20px] hover:bg-sub duration-500">Track Parcel</button> */}
+                    </form>
                 </div>
             </div>
 
@@ -54,6 +106,30 @@ const HeroSection = () => {
                     opacity: isInView ? "1" : "0",
                     transition: "all 1.8s"
                 }} />
+
+
+
+            {/* modal to show for tracking result */}
+            <dialog id="trackingModal" className="modal modal-bottom sm:modal-middle w-full">
+                <div className="modal-box flex flex-col justify-center items-center gap-3 w-full p-5">
+
+                    <h2 className="text-third text-3xl font-heading font-bold">Parcel status</h2>
+
+                    {
+                        trackingStatus === "Invalid tracking ID" ?
+                            <h3 className="mt-4 font-body text-xl font-bold text-darkgray text-center">{trackingStatus}</h3>
+                            :
+                            <h3 className="mt-4 font-body text-xl font-bold text-darkgray text-center">Your parcel status is: {trackingStatus}</h3>
+                    }
+
+                    <div className="modal-action">
+                        <form method="dialog">
+                            {/* if there is a button in form, it will close the modal */}
+                            <button className="font-body text-[16px] bg-third text-white px-4 py-3 rounded">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
         </div>
     );
 };

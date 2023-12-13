@@ -152,10 +152,9 @@ const MyParcels = () => {
         setFilteredBookingStatus(statusType);
     }
 
-    console.log(parcels);
-
+    
     if (parcels.length === 0) {
-        console.log("emply")
+        console.log("empty")
     }
 
 
@@ -206,10 +205,9 @@ const MyParcels = () => {
                                 <thead>
                                     <tr className="font-body text-white text-center text-[14px] bg-third">
                                         <th>#</th>
+                                        <th>Tracking ID</th>
                                         <th>Parcel type</th>
-                                        <th>Req. delivery date</th>
-                                        <th>Apprx. del. date</th>
-                                        <th>Booking date</th>
+                                        <th>Booking date <br />Req. date <br />Apprx. date</th>
                                         <th>Delivery man</th>
                                         <th>Booking status</th>
                                         <th>Manage booking</th>
@@ -227,6 +225,11 @@ const MyParcels = () => {
                                                 {index + 1}
                                             </th>
 
+                                            {/* serial number */}
+                                            <th>
+                                                <p className="text-[12px] font-body font-regular">{parcel._id}</p>
+                                            </th>
+
                                             {/* parcel type */}
                                             <td>
                                                 <h4 className="font-medium font-body text-[14px] text-center">{parcel?.parcelType}</h4>
@@ -234,17 +237,7 @@ const MyParcels = () => {
 
                                             {/* requested date */}
                                             <td className="text-center">
-                                                <h4 className="font-medium font-body text-[14px] text-center">{parcel?.reqDate}</h4>
-                                            </td>
-
-                                            {/* approximate delivery date */}
-                                            <td className="font-body font-semibold text-[14px] text-center">
-                                                <h4 className="font-medium font-body text-[14px]">{parcel?.apprxDelvDate || "Pending"}</h4>
-                                            </td>
-
-                                            {/* booking date */}
-                                            <td className="font-body font-semibold text-[14px] text-center">
-                                                <h4 className="font-medium font-body text-[14px]">{parcel?.bookingDate}</h4>
+                                                <h4 className="font-medium font-body text-[14px] text-center">{parcel?.bookingDate} <br /> {parcel?.reqDate} <br /> {parcel?.apprxDelvDate || "Pending"}</h4>
                                             </td>
 
                                             {/* delivery man */}
@@ -260,11 +253,11 @@ const MyParcels = () => {
                                             <td className="font-body font-semibold text-[14px] text-center">
                                                 <h4
                                                     className={`font-semibold capitalize font-body text-[14px]
-                                        ${parcel?.bookingStatus === "pending" ? "text-[#ffa632]" : 'text-black'}
-                                        ${parcel?.bookingStatus === "cancelled" ? "text-[#c52828]" : 'text-black'}
-                                        ${parcel?.bookingStatus === "completed" ? "text-[#1d973c]" : 'text-black'}
-                                        ${parcel?.bookingStatus === "on the way" ? "text-[#2187db]" : 'text-black'}
-                                        ${parcel?.bookingStatus === "returned" ? "text-[#892bd6]" : 'text-black'}`}>
+                                        ${parcel?.bookingStatus === "pending" ? "text-[#ffa938]" : 'text-black'}
+                                        ${parcel?.bookingStatus === "cancelled" ? "text-[#d42828]" : 'text-black'}
+                                        ${parcel?.bookingStatus === "completed" ? "text-[#21883b]" : 'text-black'}
+                                        ${parcel?.bookingStatus === "on the way" ? "text-[#2589db]" : 'text-black'}
+                                        ${parcel?.bookingStatus === "returned" ? "text-[#8c2cda]" : 'text-black'}`}>
                                                     {parcel?.bookingStatus}
                                                 </h4>
                                             </td>
